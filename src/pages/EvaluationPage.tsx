@@ -36,56 +36,57 @@ export const EvaluationPage: React.FC<EvaluationPageProps> = ({ onBack }) => {
         </div>
       </header>
 
-      {/* 统计卡片 */}
-      <div className="px-5 py-4">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white rounded-2xl p-4 shadow-light">
-            <div className="flex items-center gap-2 mb-2">
-              <AlertCircle className="w-4 h-4 text-amber-500" />
-              <span className="text-sm text-muted-foreground">待评估</span>
+      {/* 统计概览 Banner - 浅紫清新风格 紧凑布局 */}
+      <div className="px-5 py-3">
+        <div className="relative overflow-hidden rounded-2xl p-4 gradient-purple shadow-card-hover">
+          {/* 装饰 */}
+          <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-purple-400/10 blur-2xl" />
+          <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-purple-400/10 blur-xl" />
+
+          <div className="relative flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Star className="w-4 h-4 text-purple-600/70" />
+              <span className="text-purple-700/80 text-sm font-medium">教学评估</span>
             </div>
-            <p className="text-2xl font-bold text-foreground">{evaluationData.pending.length}</p>
-            <p className="text-xs text-muted-foreground mt-1">门课程</p>
           </div>
-          
-          <div className="bg-white rounded-2xl p-4 shadow-light">
-            <div className="flex items-center gap-2 mb-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              <span className="text-sm text-muted-foreground">已完成</span>
+
+          <div className="relative flex items-center gap-6 mt-3">
+            <div className="flex items-center gap-3">
+              <div>
+                <p className="text-2xl font-bold text-purple-800 leading-none">{evaluationData.pending.length}</p>
+                <p className="text-purple-600/70 text-xs mt-0.5">待评估</p>
+              </div>
+              <div className="w-px h-8 bg-purple-300/40" />
+              <div>
+                <p className="text-2xl font-bold text-purple-800 leading-none">{evaluationData.completed.length}</p>
+                <p className="text-purple-600/70 text-xs mt-0.5">已完成</p>
+              </div>
             </div>
-            <p className="text-2xl font-bold text-foreground">{evaluationData.completed.length}</p>
-            <p className="text-xs text-muted-foreground mt-1">门课程</p>
           </div>
         </div>
       </div>
 
-      {/* 标签切换 */}
-      <div className="px-5">
-        <div className="flex gap-2 mb-4">
-          <button
+      {/* 标签切换 - Tab风格 */}
+      <div className="px-5 mt-6">
+        <div className="flex items-center gap-6 mb-4">
+          <div
             onClick={() => setActiveTab('pending')}
-            className={`
-              flex-1 py-3 rounded-xl text-sm font-medium transition-all
-              ${activeTab === 'pending'
-                ? 'bg-thu-purple text-white'
-                : 'bg-white text-foreground shadow-light'
-              }
-            `}
+            className="cursor-pointer"
           >
-            待评估 ({evaluationData.pending.length})
-          </button>
-          <button
+            <div className={`text-base font-semibold transition-colors ${activeTab === 'pending' ? 'text-[#9359FF]' : 'text-gray-400'}`}>
+              待评估
+            </div>
+            <div className={`h-1 rounded-full mt-1.5 transition-all ${activeTab === 'pending' ? 'w-full bg-[#9359FF]' : 'w-0 bg-transparent'}`} />
+          </div>
+          <div
             onClick={() => setActiveTab('completed')}
-            className={`
-              flex-1 py-3 rounded-xl text-sm font-medium transition-all
-              ${activeTab === 'completed'
-                ? 'bg-thu-purple text-white'
-                : 'bg-white text-foreground shadow-light'
-              }
-            `}
+            className="cursor-pointer"
           >
-            已完成 ({evaluationData.completed.length})
-          </button>
+            <div className={`text-base font-semibold transition-colors ${activeTab === 'completed' ? 'text-[#00BC7C]' : 'text-gray-400'}`}>
+              已完成
+            </div>
+            <div className={`h-1 rounded-full mt-1.5 transition-all ${activeTab === 'completed' ? 'w-full bg-[#00BC7C]' : 'w-0 bg-transparent'}`} />
+          </div>
         </div>
       </div>
 
@@ -114,7 +115,7 @@ export const EvaluationPage: React.FC<EvaluationPageProps> = ({ onBack }) => {
                   </div>
                 </div>
                 
-                <button className="px-4 py-2 rounded-xl bg-thu-purple text-white text-sm font-medium">
+                <button className="px-4 py-2 rounded-xl bg-[#F2EDFE] text-[#9359FF] text-sm font-medium border border-purple-200 shadow-[0_2px_8px_rgba(147,89,255,0.2)] hover:bg-[#EDE6FD] hover:shadow-[0_4px_12px_rgba(147,89,255,0.3)] transition-all">
                   去评估
                 </button>
               </div>

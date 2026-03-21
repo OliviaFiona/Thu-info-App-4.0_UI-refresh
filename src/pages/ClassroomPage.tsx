@@ -1,6 +1,50 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Search, Building2, MapPin } from 'lucide-react';
+import { ChevronLeft, Search, Building2, MapPin, School, Microscope, BookOpen, GraduationCap, Atom, FlaskConical, Leaf, Cpu, Droplets, Landmark, BookMarked, Scale, Radio, Briefcase, Palette, Zap, Cog, MessageSquare, Users, Mountain, Glasses, BookCopy, Stethoscope, Dna } from 'lucide-react';
 import { buildings } from '../data/appData';
+
+// 建筑图标映射 - 根据建筑类型返回不同图标
+const getBuildingIcon = (building: string) => {
+  // 教学楼 - 区分不同教学楼
+  if (building.includes('一教') || building.includes('四教')) return School;
+  if (building.includes('二教') || building.includes('五教')) return GraduationCap;
+  if (building.includes('三教') || building.includes('六教')) return BookOpen;
+  if (building.includes('阶梯')) return Building2;
+  // 理科
+  if (building.includes('物理')) return Atom;
+  if (building.includes('化学')) return FlaskConical;
+  if (building.includes('生物')) return Leaf;
+  if (building.includes('理科')) return Microscope;
+  if (building.includes('技术科学')) return Cpu;
+  // 工科 - 各自使用不同图标
+  if (building.includes('工物')) return Radio;
+  if (building.includes('旧水利')) return Droplets;
+  if (building.includes('新水利')) return Mountain;
+  if (building.includes('建筑')) return Landmark;
+  if (building.includes('清华学堂')) return School;
+  if (building.includes('罗姆')) return Zap;
+  if (building.includes('蒙民伟科技')) return Cog;
+  // 文科 - 各自使用不同图标
+  if (building.includes('逸夫图书馆')) return BookMarked;
+  if (building.includes('法律图书馆')) return BookCopy;
+  if (building.includes('法律')) return Scale;
+  if (building.includes('人文')) return Users;
+  if (building.includes('文北')) return Glasses;
+  if (building.includes('文南')) return Briefcase;
+  // 艺术
+  if (building.includes('艺教') || building.includes('蒙民伟楼')) return Palette;
+  // 标志性建筑
+  if (building.includes('李兆基')) return Landmark;
+  if (building.includes('自强')) return Cpu;
+  if (building.includes('主楼')) return Building2;
+  // 研讨/会议
+  if (building.includes('研讨') || building.includes('报告厅')) return MessageSquare;
+  if (building.includes('经管') || building.includes('建华') || building.includes('舜德')) return Briefcase;
+  // 其他
+  if (building.includes('近春园')) return Leaf;
+  if (building.includes('何添')) return Atom;
+  // 默认
+  return Building2;
+};
 
 interface ClassroomPageProps {
   onBack: () => void;
@@ -50,16 +94,16 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
           <h1 className="text-xl font-bold text-foreground">教室资源</h1>
         </div>
         
-        {/* 搜索栏 */}
+        {/* 搜索栏 - 内嵌玻璃效果 */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <input
             type="text"
             placeholder="搜索教学楼"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-12 pl-12 pr-4 rounded-2xl bg-muted text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-thu-purple/30 transition-all"
+            className="w-full h-12 pl-11 pr-4 rounded-2xl bg-[#F2EDFE]/50 backdrop-blur-md text-foreground placeholder:text-purple-400/70 focus:outline-none focus:bg-[#F2EDFE]/80 focus:ring-2 focus:ring-[#9359FF]/20 transition-all border border-[#9359FF]/15 shadow-[inset_0_2px_4px_rgba(147,89,255,0.08)]"
           />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-[#9359FF]/70" />
         </div>
       </header>
 
@@ -68,18 +112,21 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
         {searchQuery ? (
           // 搜索结果
           <div className="grid grid-cols-2 gap-3">
-            {filteredBuildings.map((building) => (
-              <button
-                key={building}
-                onClick={() => setSelectedBuilding(building)}
-                className="bg-white rounded-2xl p-4 shadow-light card-hover flex flex-col items-center gap-3"
-              >
-                <div className="w-12 h-12 rounded-xl bg-thu-purple/10 flex items-center justify-center">
-                  <Building2 className="w-6 h-6 text-thu-purple" />
-                </div>
-                <span className="text-sm font-medium text-foreground text-center">{building}</span>
-              </button>
-            ))}
+            {filteredBuildings.map((building) => {
+              const Icon = getBuildingIcon(building);
+              return (
+                <button
+                  key={building}
+                  onClick={() => setSelectedBuilding(building)}
+                  className="bg-white rounded-2xl p-4 shadow-light card-hover flex flex-col items-center gap-3"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                    <Icon className="w-6 h-6 text-[#9359FF]" />
+                  </div>
+                  <span className="text-sm font-medium text-foreground text-center">{building}</span>
+                </button>
+              );
+            })}
           </div>
         ) : (
           // 分组显示
@@ -89,20 +136,23 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
                 <div key={groupName}>
                   <h2 className="text-sm font-medium text-muted-foreground mb-3">{groupName}</h2>
                   <div className="grid grid-cols-2 gap-3">
-                    {groupBuildings.map((building) => (
-                      <button
-                        key={building}
-                        onClick={() => setSelectedBuilding(building)}
-                        className="bg-white rounded-2xl p-4 shadow-light card-hover flex flex-col items-center gap-3"
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-thu-purple/10 flex items-center justify-center">
-                          <Building2 className="w-6 h-6 text-thu-purple" />
-                        </div>
-                        <span className="text-sm font-medium text-foreground text-center line-clamp-2">
-                          {building}
-                        </span>
-                      </button>
-                    ))}
+                    {groupBuildings.map((building) => {
+                      const Icon = getBuildingIcon(building);
+                      return (
+                        <button
+                          key={building}
+                          onClick={() => setSelectedBuilding(building)}
+                          className="bg-white rounded-2xl p-4 shadow-light card-hover flex flex-col items-center gap-3"
+                        >
+                          <div className="w-12 h-12 rounded-xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                            <Icon className="w-6 h-6 text-[#9359FF]" />
+                          </div>
+                          <span className="text-sm font-medium text-foreground text-center line-clamp-2">
+                            {building}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )
@@ -112,8 +162,8 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
 
         {filteredBuildings.length === 0 && (
           <div className="text-center py-12">
-            <div className="w-20 h-20 rounded-full bg-thu-purple/10 flex items-center justify-center mx-auto mb-4">
-              <Search className="w-10 h-10 text-thu-purple/50" />
+            <div className="w-20 h-20 rounded-full bg-[#F2EDFE] flex items-center justify-center mx-auto mb-4 backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+              <Search className="w-10 h-10 text-[#9359FF]/60" />
             </div>
             <p className="text-muted-foreground">未找到相关教学楼</p>
           </div>
@@ -121,7 +171,9 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
       </div>
 
       {/* 选中教学楼详情弹窗 */}
-      {selectedBuilding && (
+      {selectedBuilding && (() => {
+        const DetailIcon = getBuildingIcon(selectedBuilding);
+        return (
         <div 
           className="fixed inset-0 bg-black/50 z-50 flex items-end"
           onClick={() => setSelectedBuilding(null)}
@@ -133,13 +185,15 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
             <div className="w-12 h-1.5 rounded-full bg-muted mx-auto mb-6" />
             
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl icon-purple flex items-center justify-center">
-                <Building2 className="w-8 h-8 text-[#9359FF]" />
+              <div className="w-16 h-16 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                <DetailIcon className="w-8 h-8 text-[#9359FF]" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-foreground">{selectedBuilding}</h2>
                 <div className="flex items-center gap-1 text-muted-foreground mt-1">
-                  <MapPin className="w-4 h-4" />
+                  <div className="w-6 h-6 rounded-md bg-[#F2EDFE] flex items-center justify-center backdrop-blur-sm border border-[#9359FF]/15">
+                    <MapPin className="w-4 h-4 text-[#9359FF]" />
+                  </div>
                   <span className="text-sm">清华大学校园内</span>
                 </div>
               </div>
@@ -158,7 +212,7 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
             </div>
           </div>
         </div>
-      )}
+      );})()}
     </div>
   );
 };

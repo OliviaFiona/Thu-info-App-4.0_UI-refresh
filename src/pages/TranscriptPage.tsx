@@ -47,16 +47,16 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
 
           <div className="relative text-center">
             <p className="text-purple-700/80 text-sm mb-1">总 GPA</p>
-            <p className="text-5xl font-bold text-purple-800">{transcriptData.gpa}</p>
+            <p className="text-5xl font-bold text-[#9359FF]">{transcriptData.gpa}</p>
 
             <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-purple-300/30">
               <div>
-                <p className="text-2xl font-semibold text-purple-800">{transcriptData.totalCredits}</p>
+                <p className="text-2xl font-semibold text-[#9359FF]">{transcriptData.totalCredits}</p>
                 <p className="text-purple-700/80 text-xs">总学分</p>
               </div>
               <div className="w-px h-10 bg-purple-300/40" />
               <div>
-                <p className="text-2xl font-semibold text-purple-800">{transcriptData.gpaCredits}</p>
+                <p className="text-2xl font-semibold text-[#9359FF]">{transcriptData.gpaCredits}</p>
                 <p className="text-purple-700/80 text-xs">计入GPA学分</p>
               </div>
             </div>
@@ -77,20 +77,20 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
                 className="w-full px-4 py-4 flex items-center justify-between"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-thu-purple/10 flex items-center justify-center">
-                    <BookOpen className="w-5 h-5 text-thu-purple" />
+                  <div className="w-10 h-10 rounded-xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                    <BookOpen className="w-5 h-5 text-[#9359FF]" />
                   </div>
                   <div className="text-left">
                     <p className="font-semibold text-foreground">{semester.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {semester.totalCredits}学分 · {semester.courses.length}门课程
+                      <span className="text-[#9359FF]">{semester.totalCredits}</span>学分 · {semester.courses.length}门课程
                     </p>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-3">
                   {semester.gpa && (
-                    <span className="text-lg font-bold text-thu-purple">{semester.gpa}</span>
+                    <span className="text-lg font-bold text-[#9359FF]">{semester.gpa}</span>
                   )}
                   {isExpanded ? (
                     <ChevronUp className="w-5 h-5 text-muted-foreground" />
@@ -112,7 +112,7 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
                     >
                       <div>
                         <p className="text-sm font-medium text-foreground">{course.name}</p>
-                        <p className="text-xs text-muted-foreground">{course.credits}学分</p>
+                        <p className="text-xs text-muted-foreground"><span className="text-[#9359FF]">{course.credits}</span>学分</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className={`
@@ -122,7 +122,7 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
                           {course.grade}
                         </span>
                         {course.gradePoint && (
-                          <span className="text-sm text-muted-foreground w-8 text-right">
+                          <span className="text-sm text-[#9359FF] w-8 text-right">
                             {course.gradePoint}
                           </span>
                         )}
