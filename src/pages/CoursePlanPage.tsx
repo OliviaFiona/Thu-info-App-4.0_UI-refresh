@@ -20,7 +20,7 @@ export const CoursePlanPage: React.FC<CoursePlanPageProps> = ({ onBack }) => {
   });
 
   return (
-    <div className="min-h-screen bg-background animate-slide-in-right">
+    <div className="min-h-full bg-background animate-slide-in-right">
       {/* 顶部 Header */}
       <header className="pt-12 px-5 pb-4 bg-white sticky top-0 z-10">
         <div className="flex items-center gap-3 mb-4">

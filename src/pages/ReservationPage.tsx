@@ -294,7 +294,7 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-full bg-slate-50">
       {/* 顶部 Header */}
       <header className="pt-12 px-4 pb-4 bg-white sticky top-0 z-10 border-b border-slate-100">
         <div className="flex items-center gap-3">
