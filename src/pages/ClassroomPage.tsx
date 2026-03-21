@@ -111,19 +111,19 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
       <div className="px-5 pb-8">
         {searchQuery ? (
           // 搜索结果
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-4 gap-2">
             {filteredBuildings.map((building) => {
               const Icon = getBuildingIcon(building);
               return (
                 <button
                   key={building}
                   onClick={() => setSelectedBuilding(building)}
-                  className="bg-white rounded-2xl p-4 shadow-light card-hover flex flex-col items-center gap-3"
+                  className="bg-white rounded-xl p-3 shadow-light card-hover flex flex-col items-center gap-2"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                    <Icon className="w-6 h-6 text-[#9359FF]" />
+                  <div className="w-10 h-10 rounded-lg bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                    <Icon className="w-5 h-5 text-[#9359FF]" />
                   </div>
-                  <span className="text-sm font-medium text-foreground text-center">{building}</span>
+                  <span className="text-xs font-medium text-foreground text-center line-clamp-2">{building}</span>
                 </button>
               );
             })}
@@ -135,19 +135,19 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
               groupBuildings.length > 0 && (
                 <div key={groupName}>
                   <h2 className="text-sm font-medium text-muted-foreground mb-3">{groupName}</h2>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-4 gap-2">
                     {groupBuildings.map((building) => {
                       const Icon = getBuildingIcon(building);
                       return (
                         <button
                           key={building}
                           onClick={() => setSelectedBuilding(building)}
-                          className="bg-white rounded-2xl p-4 shadow-light card-hover flex flex-col items-center gap-3"
+                          className="bg-white rounded-xl p-3 shadow-light card-hover flex flex-col items-center gap-2"
                         >
-                          <div className="w-12 h-12 rounded-xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                            <Icon className="w-6 h-6 text-[#9359FF]" />
+                          <div className="w-10 h-10 rounded-lg bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                            <Icon className="w-5 h-5 text-[#9359FF]" />
                           </div>
-                          <span className="text-sm font-medium text-foreground text-center line-clamp-2">
+                          <span className="text-xs font-medium text-foreground text-center line-clamp-2">
                             {building}
                           </span>
                         </button>
@@ -200,12 +200,12 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
             </div>
 
             <div className="space-y-3">
-              <button className="w-full py-4 rounded-2xl bg-thu-purple text-white font-medium">
+              <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
                 查看教室空闲情况
               </button>
               <button 
                 onClick={() => setSelectedBuilding(null)}
-                className="w-full py-4 rounded-2xl bg-muted text-foreground font-medium"
+                className="w-full py-4 rounded-2xl bg-[#F2EDFE] text-[#9359FF] font-medium border border-[#9359FF]/20 hover:bg-[#EDE6FD] transition-colors"
               >
                 关闭
               </button>
