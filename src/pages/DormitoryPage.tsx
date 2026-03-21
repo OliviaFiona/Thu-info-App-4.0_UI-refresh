@@ -218,8 +218,8 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
                   onClick={() => setSelectedFunction(item.id)}
                   className="bg-white rounded-2xl p-5 shadow-light card-hover flex flex-col items-center gap-3"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-thu-purple/10 flex items-center justify-center">
-                    <Icon className="w-7 h-7 text-thu-purple" />
+                  <div className="w-14 h-14 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                    <Icon className="w-7 h-7 text-[#9359FF]" />
                   </div>
                   <span className="text-sm font-medium text-foreground">{item.name}</span>
                 </button>

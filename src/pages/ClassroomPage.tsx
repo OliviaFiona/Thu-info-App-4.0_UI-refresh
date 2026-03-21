@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronLeft, Search, Building2, MapPin, School, Microscope, BookOpen, GraduationCap, Atom, FlaskConical, Leaf, Cpu, Droplets, Landmark, BookMarked, Scale, Radio, Briefcase, Palette, Zap, Cog, MessageSquare, Users, Mountain, Glasses, BookCopy, Stethoscope, Dna } from 'lucide-react';
 import { buildings } from '../data/appData';
 
@@ -170,49 +171,55 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
         )}
       </div>
 
-      {/* 选中教学楼详情弹窗 */}
+      {/* 选中教学楼详情弹窗 - 使用 Portal 挂载到 body，避免受父元素 transform 影响 */}
       {selectedBuilding && (() => {
         const DetailIcon = getBuildingIcon(selectedBuilding);
-        return (
-        <div 
-          className="fixed inset-0 bg-black/50 z-50 flex items-end"
-          onClick={() => setSelectedBuilding(null)}
-        >
+        const drawer = (
           <div 
-            className="w-full bg-white rounded-t-3xl p-6 animate-slide-up"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 bg-black/50 z-50"
+            style={{ transform: 'translateZ(0)' }}
+            onClick={() => setSelectedBuilding(null)}
           >
-            <div className="w-12 h-1.5 rounded-full bg-muted mx-auto mb-6" />
-            
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                <DetailIcon className="w-8 h-8 text-[#9359FF]" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-foreground">{selectedBuilding}</h2>
-                <div className="flex items-center gap-1 text-muted-foreground mt-1">
-                  <div className="w-6 h-6 rounded-md bg-[#F2EDFE] flex items-center justify-center backdrop-blur-sm border border-[#9359FF]/15">
-                    <MapPin className="w-4 h-4 text-[#9359FF]" />
+            <div 
+              className="fixed left-0 right-0 bottom-0 bg-white rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto animate-slide-up"
+              style={{ 
+                paddingBottom: 'max(24px, env(safe-area-inset-bottom, 0px))'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-12 h-1.5 rounded-full bg-muted mx-auto mb-6" />
+              
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                  <DetailIcon className="w-8 h-8 text-[#9359FF]" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-foreground">{selectedBuilding}</h2>
+                  <div className="flex items-center gap-1 text-muted-foreground mt-1">
+                    <div className="w-6 h-6 rounded-md bg-[#F2EDFE] flex items-center justify-center backdrop-blur-sm border border-[#9359FF]/15">
+                      <MapPin className="w-4 h-4 text-[#9359FF]" />
+                    </div>
+                    <span className="text-sm">清华大学校园内</span>
                   </div>
-                  <span className="text-sm">清华大学校园内</span>
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-3">
-              <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
-                查看教室空闲情况
-              </button>
-              <button 
-                onClick={() => setSelectedBuilding(null)}
-                className="w-full py-4 rounded-2xl bg-[#F2EDFE] text-[#9359FF] font-medium border border-[#9359FF]/20 hover:bg-[#EDE6FD] transition-colors"
-              >
-                关闭
-              </button>
+              <div className="space-y-3">
+                <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
+                  查看教室空闲情况
+                </button>
+                <button 
+                  onClick={() => setSelectedBuilding(null)}
+                  className="w-full py-4 rounded-2xl bg-[#F2EDFE] text-[#9359FF] font-medium border border-[#9359FF]/20 hover:bg-[#EDE6FD] transition-colors"
+                >
+                  关闭
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      );})()}
+        );
+        return createPortal(drawer, document.body);
+      })()}
     </div>
   );
 };

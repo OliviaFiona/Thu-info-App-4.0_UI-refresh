@@ -8,13 +8,32 @@ interface CoursePageProps {
 
 export const CoursePage: React.FC<CoursePageProps> = ({ onBack }) => {
   const [selectedSemester, setSelectedSemester] = useState(courseSemesters[0]);
+  const [showSemesterSelector, setShowSemesterSelector] = useState(false);
+
+  // 获取当前学期的索引
+  const currentIndex = courseSemesters.findIndex(s => s.id === selectedSemester.id);
+  // 判断是否可以切换
+  const canGoPrev = currentIndex < courseSemesters.length - 1;
+  const canGoNext = currentIndex > 0;
+
+  const handlePrevSemester = () => {
+    if (canGoPrev) {
+      setSelectedSemester(courseSemesters[currentIndex + 1]);
+    }
+  };
+
+  const handleNextSemester = () => {
+    if (canGoNext) {
+      setSelectedSemester(courseSemesters[currentIndex - 1]);
+    }
+  };
 
   return (
     <div className="min-h-full bg-background animate-slide-in-right">
       {/* 顶部 Header */}
       <header className="pt-12 px-5 pb-4 bg-white sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
             className="p-2 -ml-2 rounded-xl hover:bg-muted transition-colors"
           >
@@ -24,48 +43,64 @@ export const CoursePage: React.FC<CoursePageProps> = ({ onBack }) => {
         </div>
       </header>
 
-      {/* 学期选择 */}
-      <div className="px-5 py-3">
-        <div className="space-y-3">
-          {courseSemesters.map((semester) => (
-            <button
-              key={semester.id}
-              onClick={() => setSelectedSemester(semester)}
-              className={`
-                w-full flex items-center justify-between px-5 py-4 rounded-2xl
-                transition-all duration-300
-                ${selectedSemester.id === semester.id
-                  ? 'bg-thu-purple text-white shadow-glow'
-                  : 'bg-white text-foreground shadow-light hover:bg-thu-purple/5'
-                }
-              `}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`
-                  w-10 h-10 rounded-xl flex items-center justify-center
-                  ${selectedSemester.id === semester.id ? 'bg-white/20' : 'bg-thu-purple/10'}
-                `}>
-                  <GraduationCap className={`
-                    w-5 h-5
-                    ${selectedSemester.id === semester.id ? 'text-white' : 'text-thu-purple'}
-                  `} />
+      {/* 学期卡片（带切换功能） */}
+      <div className="px-5 py-4">
+        <div className="relative overflow-hidden rounded-3xl p-6 gradient-purple shadow-card-hover">
+          {/* 装饰 */}
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-purple-400/10 blur-2xl" />
+          <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-purple-400/10 blur-xl" />
+
+          <div className="relative">
+            <div className="flex items-center justify-between">
+              {/* 左箭头 - 切换到上一个学期 */}
+              <button
+                onClick={handlePrevSemester}
+                disabled={!canGoPrev}
+                className={`p-2 rounded-xl transition-colors ${canGoPrev ? 'hover:bg-purple-800/20' : 'opacity-30 cursor-not-allowed'}`}
+              >
+                <ChevronLeft className="w-6 h-6 text-purple-900" />
+              </button>
+
+              {/* 学期信息 */}
+              <div className="text-center flex-1">
+                <p className="font-semibold text-lg text-purple-900">{selectedSemester.name}</p>
+                <p className="text-sm text-purple-700/80">{selectedSemester.code}</p>
+              </div>
+
+              {/* 右箭头 - 切换到下一个学期 */}
+              <button
+                onClick={handleNextSemester}
+                disabled={!canGoNext}
+                className={`p-2 rounded-xl transition-colors ${canGoNext ? 'hover:bg-purple-800/20' : 'opacity-30 cursor-not-allowed'}`}
+              >
+                <ChevronRight className="w-6 h-6 text-purple-900" />
+              </button>
+            </div>
+
+            {/* 学分统计 - 放在学期卡片下方 */}
+            <div className="mt-4 pt-4 border-t border-purple-300/30">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-purple-900">
+                    {coursePlan.reduce((sum, c) => sum + c.credits, 0)}
+                  </p>
+                  <p className="text-xs text-purple-700/80">总学分</p>
                 </div>
-                <div className="text-left">
-                  <p className={`font-semibold ${selectedSemester.id === semester.id ? 'text-white' : 'text-foreground'}`}>
-                    {semester.name}
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-purple-900">
+                    {coursePlan.filter(c => c.type === '专业课').reduce((sum, c) => sum + c.credits, 0)}
                   </p>
-                  <p className={`text-sm ${selectedSemester.id === semester.id ? 'text-white/70' : 'text-muted-foreground'}`}>
-                    {semester.code}
+                  <p className="text-xs text-purple-700/80">专业课</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-purple-900">
+                    {coursePlan.filter(c => c.type === '公共必修课').reduce((sum, c) => sum + c.credits, 0)}
                   </p>
+                  <p className="text-xs text-purple-700/80">公共课</p>
                 </div>
               </div>
-              
-              <ChevronRight className={`
-                w-5 h-5
-                ${selectedSemester.id === semester.id ? 'text-white' : 'text-muted-foreground'}
-              `} />
-            </button>
-          ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -88,10 +123,10 @@ export const CoursePage: React.FC<CoursePageProps> = ({ onBack }) => {
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="px-2 py-0.5 rounded-full text-xs bg-thu-purple/10 text-thu-purple">
+                    <span className="px-2 py-0.5 rounded-full text-xs" style={{ backgroundColor: '#F2EDFE', color: '#9359FF' }}>
                       {course.category}
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-xs bg-thu-mint/30 text-emerald-700">
+                    <span className="px-2 py-0.5 rounded-full text-xs" style={{ backgroundColor: '#C6FCE4', color: '#00BC7C' }}>
                       {course.type}
                     </span>
                   </div>
@@ -100,9 +135,9 @@ export const CoursePage: React.FC<CoursePageProps> = ({ onBack }) => {
                     课程代码: {course.id} · {course.credits}学分
                   </p>
                 </div>
-                
-                <div className="w-10 h-10 rounded-xl bg-thu-purple/10 flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 text-thu-purple" />
+
+                <div className="w-10 h-10 rounded-xl bg-[#F2EDFE]/80 flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                  <BookOpen className="w-5 h-5 text-[#9359FF]" />
                 </div>
               </div>
             </div>
@@ -110,32 +145,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* 学分统计 */}
-      <div className="px-5 mt-5 pb-8">
-        <div className="bg-gradient-to-r from-thu-purple/5 to-thu-mint/10 rounded-2xl p-4">
-          <h3 className="font-medium text-foreground mb-3">学分统计</h3>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-thu-purple">
-                {coursePlan.reduce((sum, c) => sum + c.credits, 0)}
-              </p>
-              <p className="text-xs text-muted-foreground">总学分</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-emerald-600">
-                {coursePlan.filter(c => c.type === '专业课').reduce((sum, c) => sum + c.credits, 0)}
-              </p>
-              <p className="text-xs text-muted-foreground">专业课</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-amber-600">
-                {coursePlan.filter(c => c.type === '公共必修课').reduce((sum, c) => sum + c.credits, 0)}
-              </p>
-              <p className="text-xs text-muted-foreground">公共课</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="pb-8" />
     </div>
   );
 };

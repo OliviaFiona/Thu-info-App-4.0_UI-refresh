@@ -42,7 +42,12 @@ export const FinancePage: React.FC<FinancePageProps> = ({ onBack }) => {
               <span className="text-purple-700/80 text-sm">校园卡余额</span>
             </div>
 
-            <p className="text-4xl font-bold text-purple-800 mb-2">¥ 128.50</p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-4xl font-bold text-purple-800">¥ 128.50</p>
+              <button className="px-4 py-2 rounded-xl bg-[#F2EDFE]/60 backdrop-blur-md text-[#9359FF] text-sm font-medium border border-[#9359FF]/25 shadow-[0_2px_8px_rgba(147,89,255,0.15)] hover:bg-[#F2EDFE]/80 transition-all">
+                立即充值
+              </button>
+            </div>
 
             <div className="flex items-center gap-4 mt-4 pt-4 border-t border-purple-300/30">
               <div>
@@ -71,8 +76,8 @@ export const FinancePage: React.FC<FinancePageProps> = ({ onBack }) => {
                 key={item.id}
                 className="bg-white rounded-2xl p-5 shadow-light card-hover flex flex-col items-center gap-3"
               >
-                <div className="w-14 h-14 rounded-2xl bg-thu-purple/10 flex items-center justify-center">
-                  <Icon className="w-7 h-7 text-thu-purple" />
+                <div className="w-14 h-14 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
+                  <Icon className="w-7 h-7 text-[#9359FF]" />
                 </div>
                 <span className="text-sm font-medium text-foreground">{item.name}</span>
               </button>
@@ -112,12 +117,6 @@ export const FinancePage: React.FC<FinancePageProps> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* 充值按钮 */}
-      <div className="px-5 mt-6 pb-8">
-        <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
-          立即充值
-        </button>
-      </div>
     </div>
   );
 };

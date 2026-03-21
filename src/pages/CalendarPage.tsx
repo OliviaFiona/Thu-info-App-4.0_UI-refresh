@@ -186,10 +186,11 @@ export const CalendarPage: React.FC<CalendarPageProps> = ({ onBack }) => {
             >
               <div className={`
                 w-10 h-10 rounded-xl flex items-center justify-center
-                ${item.type === 'registration' ? 'bg-blue-100' :
-                  item.type === 'exam' ? 'bg-amber-100' :
-                  item.type === 'vacation' ? 'bg-emerald-100' :
-                  'bg-thu-purple/10'
+                backdrop-blur-md border shadow-[0_2px_8px_rgba(147,89,255,0.1)]
+                ${item.type === 'registration' ? 'bg-blue-50/80 border-blue-200/50' :
+                  item.type === 'exam' ? 'bg-amber-50/80 border-amber-200/50' :
+                  item.type === 'vacation' ? 'bg-emerald-50/80 border-emerald-200/50' :
+                  'bg-[#F2EDFE]/80 border-[#9359FF]/20'
                 }
               `}>
                 <CalendarDays className={`
@@ -197,7 +198,7 @@ export const CalendarPage: React.FC<CalendarPageProps> = ({ onBack }) => {
                   ${item.type === 'registration' ? 'text-blue-600' :
                     item.type === 'exam' ? 'text-amber-600' :
                     item.type === 'vacation' ? 'text-emerald-600' :
-                    'text-thu-purple'
+                    'text-[#9359FF]'
                   }
                 `} />
               </div>

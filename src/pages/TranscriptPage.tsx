@@ -47,16 +47,16 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
 
           <div className="relative text-center">
             <p className="text-purple-700/80 text-sm mb-1">总 GPA</p>
-            <p className="text-5xl font-bold text-[#9359FF]">{transcriptData.gpa}</p>
+            <p className="text-5xl font-bold text-purple-900">{transcriptData.gpa}</p>
 
             <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-purple-300/30">
               <div>
-                <p className="text-2xl font-semibold text-[#9359FF]">{transcriptData.totalCredits}</p>
+                <p className="text-2xl font-semibold text-purple-900">{transcriptData.totalCredits}</p>
                 <p className="text-purple-700/80 text-xs">总学分</p>
               </div>
               <div className="w-px h-10 bg-purple-300/40" />
               <div>
-                <p className="text-2xl font-semibold text-[#9359FF]">{transcriptData.gpaCredits}</p>
+                <p className="text-2xl font-semibold text-purple-900">{transcriptData.gpaCredits}</p>
                 <p className="text-purple-700/80 text-xs">计入GPA学分</p>
               </div>
             </div>
