@@ -511,49 +511,52 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           )}
         </div>
         
-        <div 
+        {/* 内层 flex 承担左右 padding，避免 overflow-x 容器上 pl/pr 在部分浏览器中首项仍贴边 */}
+        <div
           ref={functionScrollRef}
           onScroll={handleFunctionScroll}
-          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory pl-5 pr-5 gap-3"
+          className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-pl-5 scroll-pr-5"
           style={{ scrollSnapType: 'x mandatory' }}
         >
-          {allFunctions.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => !isEditMode && onNavigate(item.id)}
-              onMouseDown={() => setPressedCard(item.id)}
-              onMouseUp={() => setPressedCard(null)}
-              onMouseLeave={() => setPressedCard(null)}
-              onTouchStart={() => setPressedCard(item.id)}
-              onTouchEnd={() => setPressedCard(null)}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                setIsEditMode(true);
-              }}
-              className={`
-                flex-shrink-0 w-[calc(25%-9px)] snap-start
-                ${pressedCard === item.id ? 'scale-95' : 'scale-100'}
-                transition-transform duration-150
-              `}
-            >
-              <div 
+          <div className="flex gap-3 px-5">
+            {allFunctions.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => !isEditMode && onNavigate(item.id)}
+                onMouseDown={() => setPressedCard(item.id)}
+                onMouseUp={() => setPressedCard(null)}
+                onMouseLeave={() => setPressedCard(null)}
+                onTouchStart={() => setPressedCard(item.id)}
+                onTouchEnd={() => setPressedCard(null)}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  setIsEditMode(true);
+                }}
                 className={`
+                  flex-shrink-0 w-[calc(25%-9px)] snap-start
+                  ${pressedCard === item.id ? 'scale-95' : 'scale-100'}
+                  transition-transform duration-150
+                `}
+              >
+                <div
+                  className={`
                   relative aspect-square rounded-2xl flex flex-col items-center justify-center gap-2
                   bg-gradient-to-br ${item.color} shadow-lg
                   ${pressedCard === item.id ? 'shadow-xl' : 'shadow-md'}
                   transition-shadow duration-150
                 `}
-              >
-                {isEditMode && (
-                  <div className="absolute top-1 right-1">
-                    <GripVertical className="w-4 h-4 text-white/70" />
-                  </div>
-                )}
-                <FunctionIcon name={item.name} />
-                <span className="text-xs text-white font-medium text-center px-1">{item.name}</span>
+                >
+                  {isEditMode && (
+                    <div className="absolute top-1 right-1">
+                      <GripVertical className="w-4 h-4 text-white/70" />
+                    </div>
+                  )}
+                  <FunctionIcon name={item.name} />
+                  <span className="text-xs text-white font-medium text-center px-1">{item.name}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         
         {/* 分页指示器 - 只显示实际页数 */}
