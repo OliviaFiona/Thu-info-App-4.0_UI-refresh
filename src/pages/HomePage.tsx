@@ -25,21 +25,32 @@ interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
-// 功能图标组件
-const FunctionIcon = ({ name }: { name: string }) => {
-  const icons: Record<string, React.ReactNode> = {
-    '成绩单': <span className="text-lg">📄</span>,
-    '体测成绩': <span className="text-lg">🏃</span>,
-    '教学评估': <span className="text-lg">⭐</span>,
-    '教室资源': <span className="text-lg">🚪</span>,
-    '预约': <span className="text-lg">📅</span>,
-    '校园财务': <span className="text-lg">💳</span>,
-    '宿舍': <span className="text-lg">🏠</span>,
-    '校园网': <span className="text-lg">🌐</span>,
-    '校历': <span className="text-lg">📆</span>,
-    '选课信息': <span className="text-lg">🎓</span>,
+// 功能图标组件 - 使用上传的图片完全替换原图标
+const FunctionIcon = ({ id }: { id: string }) => {
+  const iconPaths: Record<string, string> = {
+    'pe': '/icons/pe.png',
+    'evaluation': '/icons/evaluation.png',
+    'transcript': '/icons/transcript.png',
+    'classroom': '/icons/classroom.png',
+    'reservation': '/icons/reservation.png',
+    'finance': '/icons/finance.png',
+    'dormitory': '/icons/dormitory.png',
+    'network': '/icons/network.png',
+    'calendar': '/icons/calendar.png',
+    'course': '/icons/course.png',
   };
-  return icons[name] || <span className="text-lg">📱</span>;
+
+  const path = iconPaths[id];
+  if (path) {
+    return (
+      <img
+        src={path}
+        alt=""
+        className="w-full h-full object-contain rounded-[10px] shadow-md shadow-slate-300/60"
+      />
+    );
+  }
+  return <span className="text-lg">📱</span>;
 };
 
 // 广告数据
@@ -538,21 +549,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   transition-transform duration-150
                 `}
               >
-                {/* 正方形图标 */}
-                <div
-                  className={`
-                    relative w-14 h-14 rounded-2xl flex items-center justify-center
-                    bg-gradient-to-br ${item.color}
-                    ${pressedCard === item.id ? 'shadow-lg' : 'shadow-md'}
-                    transition-shadow duration-150
-                  `}
-                >
+                {/* 图标图片 - 直接使用上传的图片 */}
+                <div className="relative w-14 h-14">
                   {isEditMode && (
-                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-white/90 rounded-full flex items-center justify-center shadow-sm">
+                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-white/90 rounded-full flex items-center justify-center shadow-sm z-10">
                       <GripVertical className="w-3 h-3 text-slate-400" />
                     </div>
                   )}
-                  <FunctionIcon name={item.name} />
+                  <FunctionIcon id={item.id} />
                 </div>
                 {/* 下方文字 */}
                 <span className="text-[11px] text-slate-600 font-medium text-center leading-tight">{item.name}</span>
