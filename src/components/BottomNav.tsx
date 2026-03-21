@@ -57,7 +57,7 @@ export const BottomNav = memo(function BottomNav({ activeTab, onTabChange }: Bot
                 <Icon size={18} strokeWidth={2} className="shrink-0" />
                 <span
                   className={`max-w-full truncate text-[10px] font-medium leading-tight ${
-                    isActive ? 'text-white' : 'text-transparent select-none'
+                    isActive ? 'text-white' : 'text-slate-400 select-none'
                   }`}
                 >
                   {item.label}
