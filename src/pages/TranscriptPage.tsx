@@ -42,22 +42,22 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
       <div className="px-5 py-4">
         <div className="relative overflow-hidden rounded-3xl p-6 gradient-purple shadow-card-hover">
           {/* 装饰 */}
-          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white/10 blur-xl" />
-          
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-purple-400/10 blur-2xl" />
+          <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-purple-400/10 blur-xl" />
+
           <div className="relative text-center">
-            <p className="text-white/70 text-sm mb-1">总 GPA</p>
-            <p className="text-5xl font-bold text-white">{transcriptData.gpa}</p>
-            
-            <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-white/20">
+            <p className="text-purple-700/80 text-sm mb-1">总 GPA</p>
+            <p className="text-5xl font-bold text-purple-800">{transcriptData.gpa}</p>
+
+            <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-purple-300/30">
               <div>
-                <p className="text-2xl font-semibold text-white">{transcriptData.totalCredits}</p>
-                <p className="text-white/70 text-xs">总学分</p>
+                <p className="text-2xl font-semibold text-purple-800">{transcriptData.totalCredits}</p>
+                <p className="text-purple-700/80 text-xs">总学分</p>
               </div>
-              <div className="w-px h-10 bg-white/20" />
+              <div className="w-px h-10 bg-purple-300/40" />
               <div>
-                <p className="text-2xl font-semibold text-white">{transcriptData.gpaCredits}</p>
-                <p className="text-white/70 text-xs">计入GPA学分</p>
+                <p className="text-2xl font-semibold text-purple-800">{transcriptData.gpaCredits}</p>
+                <p className="text-purple-700/80 text-xs">计入GPA学分</p>
               </div>
             </div>
           </div>

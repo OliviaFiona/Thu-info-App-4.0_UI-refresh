@@ -33,26 +33,26 @@ export const FinancePage: React.FC<FinancePageProps> = ({ onBack }) => {
       <div className="px-5 py-4">
         <div className="relative overflow-hidden rounded-3xl p-6 gradient-purple shadow-card-hover">
           {/* 装饰 */}
-          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white/10 blur-xl" />
-          
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-purple-400/10 blur-2xl" />
+          <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-purple-400/10 blur-xl" />
+
           <div className="relative">
             <div className="flex items-center gap-2 mb-4">
-              <CreditCard className="w-5 h-5 text-white/70" />
-              <span className="text-white/70 text-sm">校园卡余额</span>
+              <CreditCard className="w-5 h-5 text-purple-600/70" />
+              <span className="text-purple-700/80 text-sm">校园卡余额</span>
             </div>
-            
-            <p className="text-4xl font-bold text-white mb-2">¥ 128.50</p>
-            
-            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/20">
+
+            <p className="text-4xl font-bold text-purple-800 mb-2">¥ 128.50</p>
+
+            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-purple-300/30">
               <div>
-                <p className="text-white/70 text-xs">卡号</p>
-                <p className="text-white font-medium">2025XXXXXX</p>
+                <p className="text-purple-600/70 text-xs">卡号</p>
+                <p className="text-purple-800 font-medium">2025XXXXXX</p>
               </div>
-              <div className="w-px h-8 bg-white/20" />
+              <div className="w-px h-8 bg-purple-300/40" />
               <div>
-                <p className="text-white/70 text-xs">状态</p>
-                <p className="text-emerald-300 font-medium">正常</p>
+                <p className="text-purple-600/70 text-xs">状态</p>
+                <p className="text-emerald-600 font-medium">正常</p>
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ onBack }) => {
 
       {/* 充值按钮 */}
       <div className="px-5 mt-6 pb-8">
-        <button className="w-full py-4 rounded-2xl gradient-purple text-white font-medium shadow-glow-sm">
+        <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
           立即充值
         </button>
       </div>

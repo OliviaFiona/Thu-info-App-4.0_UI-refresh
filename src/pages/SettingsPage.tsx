@@ -74,8 +74,8 @@ export const SettingsPage = () => {
       <div className="px-5 mb-6">
         <div className="bg-white rounded-3xl p-5 shadow-card card-hover">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl gradient-purple flex items-center justify-center shadow-glow-sm">
-              <span className="text-white text-xl font-bold">同</span>
+            <div className="w-16 h-16 rounded-2xl icon-purple flex items-center justify-center shadow-[0_4px_16px_rgba(147,89,255,0.15)]">
+              <span className="text-[#9359FF] text-xl font-bold">同</span>
             </div>
             <div className="flex-1">
               <h2 className="text-lg font-semibold text-foreground">同学</h2>

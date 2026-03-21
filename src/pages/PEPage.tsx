@@ -61,27 +61,27 @@ export const PEPage: React.FC<PEPageProps> = ({ onBack }) => {
       <div className="px-5 py-4">
         <div className="relative overflow-hidden rounded-3xl p-6 gradient-purple shadow-card-hover">
           {/* 装饰 */}
-          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white/10 blur-xl" />
-          
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-purple-400/10 blur-2xl" />
+          <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-purple-400/10 blur-xl" />
+
           <div className="relative">
             <div className="flex items-center gap-2 mb-4">
-              <Trophy className="w-5 h-5 text-white/70" />
-              <span className="text-white/70 text-sm">2024年度体测</span>
+              <Trophy className="w-5 h-5 text-purple-600/70" />
+              <span className="text-purple-700/80 text-sm">2024年度体测</span>
             </div>
-            
+
             <div className="flex items-end gap-2 mb-4">
-              <p className="text-5xl font-bold text-white">{peData.overall.score}</p>
+              <p className="text-5xl font-bold text-purple-800">{peData.overall.score}</p>
               <div className="mb-2">
-                <span className="px-3 py-1 rounded-full bg-white/20 text-white text-sm">
+                <span className="px-3 py-1 rounded-full bg-[#9359FF]/20 text-[#9359FF] text-sm font-medium">
                   {peData.overall.grade}
                 </span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-emerald-300" />
-              <span className="text-emerald-300 text-sm">
+              <TrendingUp className="w-4 h-4 text-emerald-500" />
+              <span className="text-emerald-600 text-sm">
                 超过全校 {peData.overall.rank} 的同学
               </span>
             </div>

@@ -92,9 +92,21 @@
     border: 1px solid rgba(255, 255, 255, 0.6);
   }
   
-  /* 渐变背景 */
+  /* 渐变背景 - 深紫浅紫清新配色 */
   .gradient-purple {
-    background: linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%);
+    background: linear-gradient(135deg, #F2EDFE 0%, #E8E0FD 50%, #D4C5FC 100%);
+    border: 1px solid rgba(147, 89, 255, 0.15);
+  }
+
+  /* 深紫文字色 */
+  .text-purple-primary {
+    color: #9359FF;
+  }
+
+  /* 紫色图标背景 */
+  .icon-purple {
+    background: linear-gradient(135deg, #F2EDFE 0%, #EDE6FD 100%);
+    border: 1px solid rgba(147, 89, 255, 0.2);
   }
   
   /* 点击效果 */

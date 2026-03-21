@@ -51,10 +51,10 @@ export const NetworkPage: React.FC<NetworkPageProps> = ({ onBack }) => {
               </div>
               
               {/* 进度条 */}
-              <div className="h-3 bg-muted rounded-full overflow-hidden">
-                <div 
-                  className="h-full rounded-full gradient-purple transition-all"
-                  style={{ width: `${(networkData.used / networkData.total) * 100}%` }}
+              <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all"
+                  style={{ width: `${(networkData.used / networkData.total) * 100}%`, background: 'linear-gradient(90deg, #9359FF 0%, #B388FF 100%)' }}
                 />
               </div>
               
@@ -152,8 +152,8 @@ export const NetworkPage: React.FC<NetworkPageProps> = ({ onBack }) => {
       <div className="px-5 py-4">
         <div className="bg-white rounded-2xl p-5 shadow-light">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl gradient-purple flex items-center justify-center">
-              <Wifi className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 rounded-2xl icon-purple flex items-center justify-center">
+              <Wifi className="w-8 h-8 text-[#9359FF]" />
             </div>
             <div>
               <p className="text-lg font-semibold text-foreground">已连接</p>

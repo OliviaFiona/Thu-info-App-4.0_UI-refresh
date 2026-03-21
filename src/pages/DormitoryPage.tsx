@@ -108,7 +108,7 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
               </div>
             </div>
             
-            <button className="w-full py-4 rounded-2xl gradient-purple text-white font-medium">
+            <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
               立即充值
             </button>
           </div>
@@ -118,10 +118,10 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
         return (
           <div className="p-5">
             <h3 className="text-lg font-semibold text-foreground mb-4">卫生成绩</h3>
-            
+
             <div className="bg-white rounded-2xl p-6 shadow-light text-center">
-              <div className="w-24 h-24 rounded-full gradient-purple flex items-center justify-center mx-auto mb-4">
-                <span className="text-4xl font-bold text-white">{hygieneScore.score}</span>
+              <div className="w-24 h-24 rounded-full gradient-purple flex items-center justify-center mx-auto mb-4 border-2 border-[#9359FF]/20">
+                <span className="text-4xl font-bold text-purple-800">{hygieneScore.score}</span>
               </div>
               <p className="text-xl font-semibold text-foreground">{hygieneScore.rank}</p>
               <p className="text-sm text-muted-foreground mt-1">
@@ -160,7 +160,7 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
               </div>
             </div>
             
-            <button className="w-full py-4 rounded-2xl gradient-purple text-white font-medium">
+            <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
               立即充值
             </button>
           </div>
@@ -190,8 +190,8 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
       <div className="px-5 py-4">
         <div className="bg-white rounded-2xl p-5 shadow-light">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl gradient-purple flex items-center justify-center">
-              <span className="text-white text-2xl font-bold">紫</span>
+            <div className="w-16 h-16 rounded-2xl icon-purple flex items-center justify-center">
+              <span className="text-[#9359FF] text-2xl font-bold">紫</span>
             </div>
             <div>
               <p className="text-lg font-semibold text-foreground">紫荆公寓X号楼</p>

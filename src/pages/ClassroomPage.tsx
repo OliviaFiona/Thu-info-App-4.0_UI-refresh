@@ -133,8 +133,8 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
             <div className="w-12 h-1.5 rounded-full bg-muted mx-auto mb-6" />
             
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl gradient-purple flex items-center justify-center">
-                <Building2 className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 rounded-2xl icon-purple flex items-center justify-center">
+                <Building2 className="w-8 h-8 text-[#9359FF]" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-foreground">{selectedBuilding}</h2>
