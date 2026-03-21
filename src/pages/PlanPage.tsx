@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { 
+import { useState, useRef } from 'react';
+import {
   ChevronLeft,
-  ChevronRight, 
-  Plus, 
-  Calendar, 
-  Clock, 
-  MapPin, 
+  ChevronRight,
+  Plus,
+  Calendar,
+  Clock,
+  MapPin,
   X,
+  LayoutGrid,
+  List,
 } from 'lucide-react';
 
 // 课程数据
@@ -20,8 +22,8 @@ const courseSchedule = [
 
 // 倒计时数据
 const defaultCountdowns = [
-  { id: 1, name: '期末考试周', date: '2026-01-13', type: 'exam', color: 'bg-red-500' },
-  { id: 2, name: '寒假开始', date: '2026-01-20', type: 'vacation', color: 'bg-emerald-500' },
+  { id: 1, name: '期末考试周', date: '2026-06-13', type: 'exam', color: 'bg-red-500' },
+  { id: 2, name: '暑假开始', date: '2026-06-21', type: 'vacation', color: 'bg-emerald-500' },
 ];
 
 // 获取月份天数
@@ -47,6 +49,11 @@ export const PlanPage = () => {
   const [newEvent, setNewEvent] = useState({ name: '', location: '', day: 1, startTime: 8, duration: 2 });
   const [newCountdown, setNewCountdown] = useState({ name: '', date: '' });
   const [events, setEvents] = useState(courseSchedule);
+  // 当前编辑的日程（null表示新增模式）
+  const [currentEditEvent, setCurrentEditEvent] = useState<typeof courseSchedule[0] | null>(null);
+  // 长按计时器
+  const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const LONG_PRESS_DURATION = 500; // 长按触发时间（毫秒）
 
   const weekdays = ['一', '二', '三', '四', '五', '六', '日'];
   const timeSlots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
@@ -120,6 +127,52 @@ export const PlanPage = () => {
   // 删除倒计时
   const deleteCountdown = (id: number) => {
     setCountdowns(countdowns.filter(c => c.id !== id));
+  };
+
+  // 长按开始处理
+  const handleLongPressStart = (event: typeof courseSchedule[0]) => {
+    longPressTimerRef.current = setTimeout(() => {
+      // 打开编辑弹窗
+      setCurrentEditEvent(event);
+      setNewEvent({
+        name: event.name,
+        location: event.location,
+        day: event.day,
+        startTime: event.startTime,
+        duration: event.duration
+      });
+      setShowAddEvent(true);
+    }, LONG_PRESS_DURATION);
+  };
+
+  // 长按结束处理（触摸移动或抬起时清除计时器）
+  const handleLongPressEnd = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  };
+
+  // 更新日程
+  const updateEvent = () => {
+    if (newEvent.name && currentEditEvent) {
+      setEvents(events.map(e =>
+        e.id === currentEditEvent.id
+          ? { ...e, ...newEvent }
+          : e
+      ));
+      setNewEvent({ name: '', location: '', day: 1, startTime: 8, duration: 2 });
+      setCurrentEditEvent(null);
+      setShowAddEvent(false);
+    }
+  };
+
+  // 关闭弹窗并重置状态
+  const closeEventModal = () => {
+    setShowAddEvent(false);
+    setCurrentEditEvent(null);
+    setNewEvent({ name: '', location: '', day: 1, startTime: 8, duration: 2 });
+    handleLongPressEnd();
   };
 
   // 获取选中日期的事件
@@ -228,7 +281,7 @@ export const PlanPage = () => {
         <div className="min-w-full">
           {/* 表头 - 7天 */}
           <div className="grid grid-cols-8 gap-0.5 mb-0.5">
-            <div className="text-[9px] text-slate-400 text-center py-1 w-8">时间</div>
+            <div className="text-[9px] text-slate-400 text-center w-8 flex items-end justify-center h-[42px] pb-2">时间</div>
             {weekDays.map((date, i) => {
               const isToday = new Date().toDateString() === date.toDateString();
               return (
@@ -258,9 +311,14 @@ export const PlanPage = () => {
                 return (
                   <div key={day} className="min-w-[42px] min-h-[28px]">
                     {event && (
-                      <div 
-                        className={`${event.color} rounded-md p-1 text-white text-[8px] leading-tight h-full`}
+                      <div
+                        className={`${event.color} rounded-md p-1 text-white text-[8px] leading-tight h-full cursor-pointer select-none`}
                         style={{ minHeight: `${event.duration * 28}px` }}
+                        onTouchStart={() => handleLongPressStart(event)}
+                        onTouchEnd={handleLongPressEnd}
+                        onMouseDown={() => handleLongPressStart(event)}
+                        onMouseUp={handleLongPressEnd}
+                        onMouseLeave={handleLongPressEnd}
                       >
                         <p className="font-medium truncate">{event.name}</p>
                         <p className="opacity-80 truncate">{event.location}</p>
@@ -280,7 +338,15 @@ export const PlanPage = () => {
   const renderEventList = (eventList: typeof events) => (
     <div className="space-y-2">
       {eventList.map((event) => (
-        <div key={event.id} className="flex items-center gap-3 p-2 rounded-xl bg-slate-50">
+        <div
+          key={event.id}
+          className="flex items-center gap-3 p-2 rounded-xl bg-slate-50 cursor-pointer select-none"
+          onTouchStart={() => handleLongPressStart(event)}
+          onTouchEnd={handleLongPressEnd}
+          onMouseDown={() => handleLongPressStart(event)}
+          onMouseUp={handleLongPressEnd}
+          onMouseLeave={handleLongPressEnd}
+        >
           <div className={`w-1 h-8 rounded-full ${event.color}`} />
           <div className="flex-1">
             <p className="text-sm font-medium text-slate-800">{event.name}</p>
@@ -306,64 +372,71 @@ export const PlanPage = () => {
       <header className="pt-8 px-4 pb-2 bg-white sticky top-0 z-10 border-b border-slate-100">
         <div className="flex items-center justify-between">
           <h1 className="text-base font-bold text-slate-800">日程</h1>
-          <button 
-            onClick={() => setShowAddEvent(true)}
-            className="w-7 h-7 rounded-lg bg-violet-500 flex items-center justify-center"
-          >
-            <Plus className="w-4 h-4 text-white" />
-          </button>
+          <div className="flex items-center gap-3">
+            {/* 视图切换组件 */}
+            <div className="flex items-center bg-slate-100 rounded-full p-1">
+              {/* 周/月切换 */}
+              <div className="flex items-center">
+                <button
+                  onClick={() => setMainView('week')}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                    mainView === 'week'
+                      ? 'bg-white text-slate-800 shadow-sm'
+                      : 'text-slate-500'
+                  }`}
+                >
+                  周
+                </button>
+                <button
+                  onClick={() => setMainView('month')}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                    mainView === 'month'
+                      ? 'bg-white text-slate-800 shadow-sm'
+                      : 'text-slate-500'
+                  }`}
+                >
+                  月
+                </button>
+              </div>
+              {/* 周视图下的子模式切换 - 仅周视图显示 */}
+              {mainView === 'week' && (
+                <>
+                  <div className="w-px h-4 bg-slate-300 mx-1" />
+                  <div className="flex items-center gap-0.5">
+                    <button
+                      onClick={() => setWeekSubMode('schedule')}
+                      className={`p-1.5 rounded-full transition-all ${
+                        weekSubMode === 'schedule'
+                          ? 'bg-white text-slate-800 shadow-sm'
+                          : 'text-slate-400'
+                      }`}
+                    >
+                      <LayoutGrid className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setWeekSubMode('list')}
+                      className={`p-1.5 rounded-full transition-all ${
+                        weekSubMode === 'list'
+                          ? 'bg-white text-slate-800 shadow-sm'
+                          : 'text-slate-400'
+                      }`}
+                    >
+                      <List className="w-4 h-4" />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+            <button
+              onClick={() => setShowAddEvent(true)}
+              className="w-7 h-7 rounded-lg bg-violet-500/20 backdrop-blur-sm flex items-center justify-center border border-violet-500/50"
+            >
+              <Plus className="w-4 h-4 text-violet-700" />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* 统一的视图切换控件 - 周/月 */}
-      <div className="px-4 py-3 bg-white border-b border-slate-100">
-        <div className="flex items-center justify-center">
-          <div className="flex bg-slate-100 rounded-xl p-1">
-            <button
-              onClick={() => setMainView('week')}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                mainView === 'week' ? 'bg-white text-violet-600 shadow-sm' : 'text-slate-500'
-              }`}
-            >
-              周
-            </button>
-            <button
-              onClick={() => setMainView('month')}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                mainView === 'month' ? 'bg-white text-violet-600 shadow-sm' : 'text-slate-500'
-              }`}
-            >
-              月
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 周视图下的子模式切换 */}
-      {mainView === 'week' && (
-        <div className="px-4 py-2 bg-white border-b border-slate-100">
-          <div className="flex items-center justify-center">
-            <div className="flex bg-slate-100 rounded-xl p-1">
-              <button
-                onClick={() => setWeekSubMode('schedule')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  weekSubMode === 'schedule' ? 'bg-white text-violet-600 shadow-sm' : 'text-slate-500'
-                }`}
-              >
-                课程表
-              </button>
-              <button
-                onClick={() => setWeekSubMode('list')}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  weekSubMode === 'list' ? 'bg-white text-violet-600 shadow-sm' : 'text-slate-500'
-                }`}
-              >
-                列表
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 日期导航 - 周视图 */}
       {mainView === 'week' && (
@@ -417,9 +490,7 @@ export const PlanPage = () => {
           {/* 周视图 - 课程表模式 */}
           {mainView === 'week' && weekSubMode === 'schedule' && (
             <div>
-              {/* 一行周日历 */}
-              {renderWeekCalendarRow()}
-              {/* 课程表 */}
+              {/* 课程表（包含日期表头） */}
               {renderCompactSchedule()}
             </div>
           )}
@@ -460,12 +531,6 @@ export const PlanPage = () => {
       <div className="px-4 mt-4">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-slate-800">倒计时</h2>
-          <button 
-            onClick={() => setShowAddCountdown(true)}
-            className="w-6 h-6 rounded-lg bg-violet-100 flex items-center justify-center"
-          >
-            <Plus className="w-3.5 h-3.5 text-violet-600" />
-          </button>
         </div>
 
         <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
@@ -476,14 +541,12 @@ export const PlanPage = () => {
                 key={countdown.id}
                 className="flex-shrink-0 w-28 bg-white rounded-2xl p-3 shadow-sm border border-slate-100 tap-effect relative"
               >
-                {countdown.type === 'custom' && (
-                  <button
-                    onClick={() => deleteCountdown(countdown.id)}
-                    className="absolute top-1 right-1 p-1 rounded-full hover:bg-red-50"
-                  >
-                    <X className="w-3 h-3 text-red-400" />
-                  </button>
-                )}
+                <button
+                  onClick={() => deleteCountdown(countdown.id)}
+                  className="absolute top-1 right-1 p-1 rounded-full hover:bg-red-50"
+                >
+                  <X className="w-3 h-3 text-red-400" />
+                </button>
                 <div className={`w-7 h-7 rounded-lg ${countdown.color} flex items-center justify-center mb-2`}>
                   <Calendar className="w-3.5 h-3.5 text-white" />
                 </div>
@@ -495,38 +558,64 @@ export const PlanPage = () => {
               </div>
             );
           })}
+
+          {/* 添加按钮 */}
+          <button
+            onClick={() => setShowAddCountdown(true)}
+            className="flex-shrink-0 w-28 bg-slate-50 rounded-2xl p-3 border border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 tap-effect"
+          >
+            <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center">
+              <Plus className="w-4 h-4 text-slate-400" />
+            </div>
+            <span className="text-xs text-slate-400">添加</span>
+          </button>
         </div>
       </div>
 
-      {/* 添加日程弹窗 */}
+      {/* 添加/编辑日程弹窗 */}
       {showAddEvent && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-50 flex items-end"
-          onClick={() => setShowAddEvent(false)}
+        <div
+          className="fixed inset-0 bg-black/50 z-[999] flex items-end"
+          onClick={closeEventModal}
         >
-          <div 
+          <div
             className="w-full bg-white rounded-t-3xl p-5 animate-slide-up"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-12 h-1.5 rounded-full bg-slate-200 mx-auto mb-5" />
-            <h3 className="text-base font-bold text-slate-800 mb-4">添加日程</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base font-bold text-slate-800">
+                {currentEditEvent ? '编辑日程' : '添加日程'}
+              </h3>
+              {currentEditEvent && (
+                <button
+                  onClick={() => {
+                    setEvents(events.filter(e => e.id !== currentEditEvent.id));
+                    closeEventModal();
+                  }}
+                  className="text-sm text-red-500 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors"
+                >
+                  删除
+                </button>
+              )}
+            </div>
             <div className="space-y-3">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="日程名称"
                 value={newEvent.name}
                 onChange={(e) => setNewEvent({...newEvent, name: e.target.value})}
                 className="w-full h-11 px-4 rounded-xl bg-slate-100 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 text-sm"
               />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="地点"
                 value={newEvent.location}
                 onChange={(e) => setNewEvent({...newEvent, location: e.target.value})}
                 className="w-full h-11 px-4 rounded-xl bg-slate-100 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 text-sm"
               />
               <div className="grid grid-cols-2 gap-3">
-                <select 
+                <select
                   value={newEvent.day}
                   onChange={(e) => setNewEvent({...newEvent, day: parseInt(e.target.value)})}
                   className="h-11 px-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30 text-sm"
@@ -535,7 +624,7 @@ export const PlanPage = () => {
                     <option key={i} value={i + 1}>周{day}</option>
                   ))}
                 </select>
-                <select 
+                <select
                   value={newEvent.startTime}
                   onChange={(e) => setNewEvent({...newEvent, startTime: parseInt(e.target.value)})}
                   className="h-11 px-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30 text-sm"
@@ -545,11 +634,11 @@ export const PlanPage = () => {
                   ))}
                 </select>
               </div>
-              <button 
-                onClick={addEvent}
-                className="w-full h-11 rounded-xl bg-violet-500 text-white font-medium text-sm"
+              <button
+                onClick={currentEditEvent ? updateEvent : addEvent}
+                className="w-full h-11 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 font-medium text-sm border border-violet-500/50 hover:bg-violet-500/30 transition-colors"
               >
-                添加
+                {currentEditEvent ? '保存' : '添加'}
               </button>
             </div>
           </div>
@@ -558,11 +647,11 @@ export const PlanPage = () => {
 
       {/* 添加倒计时弹窗 */}
       {showAddCountdown && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-50 flex items-end"
+        <div
+          className="fixed inset-0 bg-black/50 z-[999] flex items-end"
           onClick={() => setShowAddCountdown(false)}
         >
-          <div 
+          <div
             className="w-full bg-white rounded-t-3xl p-5 animate-slide-up"
             onClick={(e) => e.stopPropagation()}
           >
@@ -582,9 +671,9 @@ export const PlanPage = () => {
                 onChange={(e) => setNewCountdown({...newCountdown, date: e.target.value})}
                 className="w-full h-11 px-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30 text-sm"
               />
-              <button 
+              <button
                 onClick={addCountdown}
-                className="w-full h-11 rounded-xl bg-violet-500 text-white font-medium text-sm"
+                className="w-full h-11 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 font-medium text-sm border border-violet-500/50 hover:bg-violet-500/30 transition-colors"
               >
                 添加
               </button>

@@ -115,7 +115,7 @@ export const EvaluationPage: React.FC<EvaluationPageProps> = ({ onBack }) => {
                   </div>
                 </div>
                 
-                <button className="px-4 py-2 rounded-xl bg-[#F2EDFE] text-[#9359FF] text-sm font-medium border border-purple-200 shadow-[0_2px_8px_rgba(147,89,255,0.2)] hover:bg-[#EDE6FD] hover:shadow-[0_4px_12px_rgba(147,89,255,0.3)] transition-all">
+                <button className="px-4 py-2 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 text-sm font-medium border border-violet-500/50 hover:bg-violet-500/30 transition-colors">
                   去评估
                 </button>
               </div>
@@ -160,8 +160,8 @@ export const EvaluationPage: React.FC<EvaluationPageProps> = ({ onBack }) => {
 
         {activeTab === 'pending' && evaluationData.pending.length === 0 && (
           <div className="text-center py-12">
-            <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
-              <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+            <div className="w-20 h-20 rounded-full bg-emerald-500/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-4 border border-emerald-500/50">
+              <CheckCircle2 className="w-10 h-10 text-emerald-700" />
             </div>
             <p className="text-muted-foreground">所有课程已评估完成</p>
           </div>

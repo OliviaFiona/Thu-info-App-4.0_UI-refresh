@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, WashingMachine, Droplets, Sparkles, Plug, Zap, Droplet } from 'lucide-react';
+import { ChevronLeft, WashingMachine, Droplets, Plug, Zap, Droplet } from 'lucide-react';
 import { dormitoryFunctions } from '../data/appData';
 
 interface DormitoryPageProps {
@@ -9,7 +9,6 @@ interface DormitoryPageProps {
 const iconMap: Record<string, React.ElementType> = {
   WashingMachine,
   Droplets,
-  Sparkles,
   Plug,
 };
 
@@ -31,19 +30,17 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
     daysLeft: 15,
   };
 
-  // 卫生成绩
-  const hygieneScore = {
-    lastCheck: '2026-01-15',
-    score: 95,
-    rank: '优秀',
+  // 获取当前选中功能的名称
+  const getSelectedFunctionName = () => {
+    const func = dormitoryFunctions.find(f => f.id === selectedFunction);
+    return func?.name || '';
   };
 
   const renderFunctionContent = () => {
     switch (selectedFunction) {
       case 'washer':
         return (
-          <div className="p-5">
-            <h3 className="text-lg font-semibold text-foreground mb-4">洗衣机查询</h3>
+          <div className="px-5 pb-5">
             <div className="space-y-3">
               {washerStatus.map((floor) => (
                 <div key={floor.id} className="bg-white rounded-2xl p-4 shadow-light">
@@ -80,14 +77,12 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
 
       case 'electricity':
         return (
-          <div className="p-5">
-            <h3 className="text-lg font-semibold text-foreground mb-4">宿舍电费</h3>
-            
+          <div className="px-5 pb-5">
             <div className="bg-white rounded-2xl p-5 shadow-light mb-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center">
-                    <Zap className="w-6 h-6 text-amber-600" />
+                  <div className="w-12 h-12 rounded-xl bg-amber-500/20 backdrop-blur-sm flex items-center justify-center border border-amber-500/50">
+                    <Zap className="w-6 h-6 text-amber-700" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">当前余额</p>
@@ -108,40 +103,15 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
               </div>
             </div>
             
-            <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
+            <button className="w-full h-12 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 font-medium border border-violet-500/50 hover:bg-violet-500/30 transition-colors">
               立即充值
             </button>
           </div>
         );
 
-      case 'hygiene':
-        return (
-          <div className="p-5">
-            <h3 className="text-lg font-semibold text-foreground mb-4">卫生成绩</h3>
-
-            <div className="bg-white rounded-2xl p-6 shadow-light text-center">
-              <div className="w-24 h-24 rounded-full gradient-purple flex items-center justify-center mx-auto mb-4 border-2 border-[#9359FF]/20">
-                <span className="text-4xl font-bold text-purple-800">{hygieneScore.score}</span>
-              </div>
-              <p className="text-xl font-semibold text-foreground">{hygieneScore.rank}</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                上次检查: {hygieneScore.lastCheck}
-              </p>
-            </div>
-            
-            <div className="mt-4 bg-emerald-50 rounded-2xl p-4">
-              <p className="text-sm text-emerald-700">
-                恭喜！您的宿舍卫生状况优秀，请继续保持！
-              </p>
-            </div>
-          </div>
-        );
-
       case 'water':
         return (
-          <div className="p-5">
-            <h3 className="text-lg font-semibold text-foreground mb-4">清紫源泉</h3>
-            
+          <div className="px-5 pb-5">
             <div className="bg-white rounded-2xl p-5 shadow-light mb-4">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
@@ -160,7 +130,7 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
               </div>
             </div>
             
-            <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
+            <button className="w-full h-12 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 font-medium border border-violet-500/50 hover:bg-violet-500/30 transition-colors">
               立即充值
             </button>
           </div>
@@ -218,8 +188,8 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
                   onClick={() => setSelectedFunction(item.id)}
                   className="bg-white rounded-2xl p-5 shadow-light card-hover flex flex-col items-center gap-3"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                    <Icon className="w-7 h-7 text-[#9359FF]" />
+                  <div className="w-14 h-14 rounded-2xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center border border-violet-500/50">
+                    <Icon className="w-7 h-7 text-violet-700" />
                   </div>
                   <span className="text-sm font-medium text-foreground">{item.name}</span>
                 </button>
@@ -232,13 +202,14 @@ export const DormitoryPage: React.FC<DormitoryPageProps> = ({ onBack }) => {
       {/* 功能详情 */}
       {selectedFunction && (
         <div className="animate-slide-in-right">
-          <div className="px-5 mb-4">
+          {/* 返回栏 - 复用宿舍服务和上方卡片的间距 */}
+          <div className="px-5 pt-4 pb-3">
             <button
               onClick={() => setSelectedFunction(null)}
-              className="flex items-center gap-2 text-thu-purple"
+              className="flex items-center gap-2 text-[#9359FF]"
             >
               <ChevronLeft className="w-5 h-5" />
-              返回
+              <span className="text-lg font-semibold">{getSelectedFunctionName()}</span>
             </button>
           </div>
           {renderFunctionContent()}

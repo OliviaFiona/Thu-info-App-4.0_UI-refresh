@@ -136,8 +136,8 @@ export const CoursePage: React.FC<CoursePageProps> = ({ onBack }) => {
                   </p>
                 </div>
 
-                <div className="w-10 h-10 rounded-xl bg-[#F2EDFE]/80 flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                  <BookOpen className="w-5 h-5 text-[#9359FF]" />
+                <div className="w-10 h-10 rounded-xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center border border-violet-500/50">
+                  <BookOpen className="w-5 h-5 text-violet-700" />
                 </div>
               </div>
             </div>

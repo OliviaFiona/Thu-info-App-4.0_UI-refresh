@@ -40,8 +40,8 @@ export const NetworkPage: React.FC<NetworkPageProps> = ({ onBack }) => {
         {/* 流量使用卡片（含网络信息） */}
         <div className="bg-white rounded-2xl p-5 shadow-light">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-              <Wifi className="w-6 h-6 text-[#9359FF]" />
+            <div className="w-12 h-12 rounded-xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center border border-violet-500/50">
+              <Wifi className="w-6 h-6 text-violet-700" />
             </div>
             <div>
               <p className="text-sm text-muted-foreground">本月已用流量</p>
@@ -96,10 +96,10 @@ export const NetworkPage: React.FC<NetworkPageProps> = ({ onBack }) => {
                 key={device.id}
                 className={`flex items-center gap-3 px-4 py-3 ${index !== onlineDevices.length - 1 ? 'border-b border-slate-100' : ''}`}
               >
-                <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center">
-                  {device.type === 'phone' && <Smartphone className="w-5 h-5 text-slate-500" />}
-                  {device.type === 'laptop' && <Laptop className="w-5 h-5 text-slate-500" />}
-                  {device.type === 'tablet' && <Tablet className="w-5 h-5 text-slate-500" />}
+                <div className="w-10 h-10 rounded-xl bg-slate-400/20 backdrop-blur-sm flex items-center justify-center border border-slate-400/50">
+                  {device.type === 'phone' && <Smartphone className="w-5 h-5 text-slate-700" />}
+                  {device.type === 'laptop' && <Laptop className="w-5 h-5 text-slate-700" />}
+                  {device.type === 'tablet' && <Tablet className="w-5 h-5 text-slate-700" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-foreground text-sm">{device.name}</p>

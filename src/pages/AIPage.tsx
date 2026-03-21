@@ -8,12 +8,13 @@ interface Message {
   timestamp: Date;
 }
 
-// 快捷问题
+// 快捷问题 - RAG增强类别
 const quickQuestions = [
-  '教务通知',
-  '学生工作通知',
-  '就业通知',
-  '图书馆开放时间',
+  '教务教学',
+  '学生工作',
+  '科研学术',
+  '就业创业',
+  '校园生活',
 ];
 
 export const AIPage = () => {
@@ -21,7 +22,17 @@ export const AIPage = () => {
   const [inputValue, setInputValue] = useState('');
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState('DeepSeek-R1-Distill-32B');
+  const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // 切换选中问题（RAG增强模式）
+  const toggleQuestion = (question: string) => {
+    setSelectedQuestions(prev =>
+      prev.includes(question)
+        ? prev.filter(q => q !== question)
+        : [...prev, question]
+    );
+  };
 
   const models = [
     'DeepSeek-R1-Distill-32B',
@@ -39,17 +50,23 @@ export const AIPage = () => {
   }, [messages]);
 
   const handleSend = () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() && selectedQuestions.length === 0) return;
+
+    // 构建消息内容：选中的RAG问题 + 用户输入
+    const ragContext = selectedQuestions.length > 0
+      ? `【RAG增强: ${selectedQuestions.join('、')}】\n${inputValue.trim()}`
+      : inputValue.trim();
 
     const userMessage: Message = {
       id: Date.now(),
       type: 'user',
-      content: inputValue,
+      content: ragContext,
       timestamp: new Date(),
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
+    setSelectedQuestions([]); // 清空选中的问题
 
     // 模拟AI回复
     setTimeout(() => {
@@ -145,8 +162,8 @@ export const AIPage = () => {
           <div className="flex flex-col items-center justify-center min-h-[40vh]">
             {/* Logo */}
             <div className="relative mb-4">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
-                <Sparkles className="w-7 h-7 text-white" />
+              <div className="w-14 h-14 rounded-xl bg-violet-500/20 backdrop-blur-sm border border-[#9359FF] flex items-center justify-center">
+                <Sparkles className="w-7 h-7" style={{ color: '#9359FF' }} />
               </div>
             </div>
             
@@ -170,8 +187,8 @@ export const AIPage = () => {
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {message.type === 'ai' && (
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mr-2 flex-shrink-0">
-                    <Sparkles className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 rounded-lg bg-violet-500/20 backdrop-blur-sm flex items-center justify-center mr-2 flex-shrink-0 border border-violet-500/50">
+                    <Sparkles className="w-4 h-4 text-violet-700" />
                   </div>
                 )}
                 
@@ -197,18 +214,27 @@ export const AIPage = () => {
 
       {/* 底部输入区域 - 在底部导航栏上方 */}
       <div className="fixed bottom-[72px] left-0 right-0 px-4 py-3 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent">
-        {/* 快捷标签 */}
+        {/* 快捷标签 - RAG增强选择 */}
         {messages.length === 0 && (
-          <div className="flex flex-wrap gap-2 mb-2 justify-center">
-            {quickQuestions.map((question, index) => (
-              <button
-                key={index}
-                onClick={() => handleQuickQuestion(question)}
-                className="px-3 py-1.5 rounded-full bg-white text-[10px] text-slate-500 shadow-sm border border-slate-100 hover:bg-violet-50 hover:text-violet-600 hover:border-violet-200 transition-colors"
-              >
-                {question}
-              </button>
-            ))}
+          <div className="flex gap-2 mb-2 overflow-x-auto scrollbar-hide pb-1">
+            {quickQuestions.map((question, index) => {
+              const isSelected = selectedQuestions.includes(question);
+              return (
+                <button
+                  key={index}
+                  onClick={() => toggleQuestion(question)}
+                  className={`
+                    flex-shrink-0 px-3 py-1.5 rounded-full text-[10px] transition-all duration-300 whitespace-nowrap
+                    ${isSelected
+                      ? 'bg-gradient-to-r from-[#9359FF] to-violet-300 text-white border border-[#9359FF]/50 shadow-sm'
+                      : 'bg-white text-slate-500 border border-slate-100 hover:bg-violet-50 hover:text-violet-600 hover:border-violet-200'
+                    }
+                  `}
+                >
+                  {question}
+                </button>
+              );
+            })}
           </div>
         )}
         
@@ -217,21 +243,21 @@ export const AIPage = () => {
           <div className="flex-1 relative">
             <input
               type="text"
-              placeholder="想聊些什么呀？"
+              placeholder={selectedQuestions.length > 0 ? `已选择 ${selectedQuestions.length} 个RAG增强项` : '想聊些什么呀？'}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              onKeyDown={(e) => (e.key === 'Enter' && (inputValue.trim() || selectedQuestions.length > 0)) && handleSend()}
               className="w-full h-11 pl-4 pr-4 rounded-full bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all shadow-sm text-sm"
             />
           </div>
           
           <button
             onClick={handleSend}
-            disabled={!inputValue.trim()}
+            disabled={!inputValue.trim() && selectedQuestions.length === 0}
             className={`
               w-11 h-11 rounded-full flex items-center justify-center
               transition-all duration-300 ease-spring
-              ${inputValue.trim()
+              ${inputValue.trim() || selectedQuestions.length > 0
                 ? 'bg-violet-500 text-white shadow-lg shadow-violet-200 hover:scale-105'
                 : 'bg-slate-200 text-slate-400'
               }

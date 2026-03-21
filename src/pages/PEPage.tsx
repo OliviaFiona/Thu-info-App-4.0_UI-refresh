@@ -101,8 +101,8 @@ export const PEPage: React.FC<PEPageProps> = ({ onBack }) => {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-thu-purple/10 flex items-center justify-center">
-                    <Activity className="w-5 h-5 text-thu-purple" />
+                  <div className="w-10 h-10 rounded-xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center border border-violet-500/50">
+                    <Activity className="w-5 h-5 text-violet-700" />
                   </div>
                   <div>
                     <p className="font-medium text-foreground">{item.name}</p>

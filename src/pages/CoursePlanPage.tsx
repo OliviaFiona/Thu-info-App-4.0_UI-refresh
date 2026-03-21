@@ -92,8 +92,8 @@ export const CoursePlanPage: React.FC<CoursePlanPageProps> = ({ onBack }) => {
                 </p>
               </div>
               
-              <div className="w-10 h-10 rounded-xl bg-thu-purple/10 flex items-center justify-center flex-shrink-0">
-                <BookOpen className="w-5 h-5 text-thu-purple" />
+              <div className="w-10 h-10 rounded-xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 border border-violet-500/50">
+                <BookOpen className="w-5 h-5 text-violet-700" />
               </div>
             </div>
           </div>
@@ -101,8 +101,8 @@ export const CoursePlanPage: React.FC<CoursePlanPageProps> = ({ onBack }) => {
 
         {filteredCourses.length === 0 && (
           <div className="text-center py-12">
-            <div className="w-20 h-20 rounded-full bg-thu-purple/10 flex items-center justify-center mx-auto mb-4">
-              <Search className="w-10 h-10 text-thu-purple/50" />
+            <div className="w-20 h-20 rounded-full bg-violet-500/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-4 border border-violet-500/50">
+              <Search className="w-10 h-10 text-violet-700/70" />
             </div>
             <p className="text-muted-foreground">未找到相关课程</p>
           </div>

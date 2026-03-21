@@ -120,8 +120,8 @@ export const SettingsPage = () => {
                     }}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-thu-purple/10 flex items-center justify-center">
-                        <Icon className="w-4.5 h-4.5 text-thu-purple" />
+                      <div className="w-9 h-9 rounded-xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center border border-violet-500/50">
+                        <Icon className="w-4.5 h-4.5 text-violet-700" />
                       </div>
                       <div>
                         <p className="text-sm font-medium text-foreground">{item.label}</p>

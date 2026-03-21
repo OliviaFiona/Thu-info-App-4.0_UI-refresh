@@ -121,8 +121,8 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
                   onClick={() => setSelectedBuilding(building)}
                   className="bg-white rounded-xl p-3 shadow-light card-hover flex flex-col items-center gap-2"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                    <Icon className="w-5 h-5 text-[#9359FF]" />
+                  <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center backdrop-blur-sm border border-violet-500/50">
+                    <Icon className="w-5 h-5 text-violet-700" />
                   </div>
                   <span className="text-xs font-medium text-foreground text-center line-clamp-2">{building}</span>
                 </button>
@@ -145,8 +145,8 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
                           onClick={() => setSelectedBuilding(building)}
                           className="bg-white rounded-xl p-3 shadow-light card-hover flex flex-col items-center gap-2"
                         >
-                          <div className="w-10 h-10 rounded-lg bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                            <Icon className="w-5 h-5 text-[#9359FF]" />
+                          <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center backdrop-blur-sm border border-violet-500/50">
+                            <Icon className="w-5 h-5 text-violet-700" />
                           </div>
                           <span className="text-xs font-medium text-foreground text-center line-clamp-2">
                             {building}
@@ -163,8 +163,8 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
 
         {filteredBuildings.length === 0 && (
           <div className="text-center py-12">
-            <div className="w-20 h-20 rounded-full bg-[#F2EDFE] flex items-center justify-center mx-auto mb-4 backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-              <Search className="w-10 h-10 text-[#9359FF]/60" />
+            <div className="w-20 h-20 rounded-full bg-violet-500/20 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm border border-violet-500/50">
+              <Search className="w-10 h-10 text-violet-700/70" />
             </div>
             <p className="text-muted-foreground">未找到相关教学楼</p>
           </div>
@@ -190,31 +190,24 @@ export const ClassroomPage: React.FC<ClassroomPageProps> = ({ onBack }) => {
               <div className="w-12 h-1.5 rounded-full bg-muted mx-auto mb-6" />
               
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                  <DetailIcon className="w-8 h-8 text-[#9359FF]" />
+                <div className="w-16 h-16 rounded-2xl bg-violet-500/20 flex items-center justify-center backdrop-blur-sm border border-violet-500/50">
+                  <DetailIcon className="w-8 h-8 text-violet-700" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-foreground">{selectedBuilding}</h2>
                   <div className="flex items-center gap-1 text-muted-foreground mt-1">
-                    <div className="w-6 h-6 rounded-md bg-[#F2EDFE] flex items-center justify-center backdrop-blur-sm border border-[#9359FF]/15">
-                      <MapPin className="w-4 h-4 text-[#9359FF]" />
-                    </div>
+                    <MapPin className="w-4 h-4 text-violet-700" />
                     <span className="text-sm">清华大学校园内</span>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <button className="w-full py-4 rounded-2xl bg-[#9359FF] text-white font-medium shadow-[0_4px_16px_rgba(147,89,255,0.35)] hover:bg-[#8248EE] transition-colors">
-                  查看教室空闲情况
-                </button>
-                <button 
-                  onClick={() => setSelectedBuilding(null)}
-                  className="w-full py-4 rounded-2xl bg-[#F2EDFE] text-[#9359FF] font-medium border border-[#9359FF]/20 hover:bg-[#EDE6FD] transition-colors"
-                >
-                  关闭
-                </button>
-              </div>
+              <button
+                onClick={() => setSelectedBuilding(null)}
+                className="w-full py-4 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 font-medium border border-violet-500/50 hover:bg-violet-500/30 transition-colors"
+              >
+                查看教室空闲情况
+              </button>
             </div>
           </div>
         );

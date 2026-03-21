@@ -78,11 +78,22 @@ const mockReservations: Reservation[] = [
   { id: 3, type: 'library', venue: '图书馆', location: '3楼自习区A', startTime: '19:00', endTime: '21:00', status: 'upcoming' },
 ];
 
-// 倒计时数据
-const countdowns = [
-  { id: 1, name: '期末考试', date: '2026-01-13', days: 5, color: 'bg-red-500' },
-  { id: 2, name: '寒假开始', date: '2026-01-20', days: 12, color: 'bg-emerald-500' },
+// 倒计时数据类型
+type Countdown = { id: number; name: string; date: string; days: number; color: string; type?: 'custom' | 'exam' | 'vacation' };
+
+// 默认倒计时数据
+const defaultCountdowns: Countdown[] = [
+  { id: 1, name: '期末考试周', date: '2026-06-13', days: 84, color: 'bg-red-500', type: 'exam' },
+  { id: 2, name: '暑假开始', date: '2026-06-21', days: 92, color: 'bg-emerald-500', type: 'vacation' },
 ];
+
+// 计算倒计时天数
+const getDaysLeft = (dateStr: string) => {
+  const target = new Date(dateStr);
+  const today = new Date();
+  const diff = target.getTime() - today.getTime();
+  return Math.ceil(diff / (1000 * 60 * 60 * 24));
+};
 
 // 获取预约图标
 const getReservationIcon = (type: string) => {
@@ -138,8 +149,35 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [reservations, setReservations] = useState<Reservation[]>(mockReservations);
   const [showCompleted, setShowCompleted] = useState(false);
   const [swipedItem, setSwipedItem] = useState<number | null>(null);
+  const [countdowns, setCountdowns] = useState<Countdown[]>(defaultCountdowns);
+  const [showAddCountdown, setShowAddCountdown] = useState(false);
+  const [newCountdown, setNewCountdown] = useState({ name: '', date: '' });
   const notificationRef = useRef<HTMLDivElement>(null);
   const functionScrollRef = useRef<HTMLDivElement>(null);
+
+  // 添加倒计时
+  const addCountdown = () => {
+    if (newCountdown.name && newCountdown.date) {
+      const colors = ['bg-red-500', 'bg-emerald-500', 'bg-amber-500', 'bg-violet-500', 'bg-cyan-500', 'bg-rose-500'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      const daysLeft = getDaysLeft(newCountdown.date);
+      setCountdowns([...countdowns, {
+        id: Date.now(),
+        name: newCountdown.name,
+        date: newCountdown.date,
+        days: daysLeft,
+        color: randomColor,
+        type: 'custom'
+      }]);
+      setNewCountdown({ name: '', date: '' });
+      setShowAddCountdown(false);
+    }
+  };
+
+  // 删除倒计时
+  const deleteCountdown = (id: number) => {
+    setCountdowns(countdowns.filter(c => c.id !== id));
+  };
 
   // 功能分页（每页4个）
   const functionsPerPage = 4;
@@ -439,11 +477,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           <div className="flex items-center gap-3">
             {/* 通知铃铛 */}
             <div className="relative" ref={notificationRef}>
-              <button 
+              <button
                 onClick={() => setShowNotificationPanel(!showNotificationPanel)}
-                className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-sm flex items-center justify-center tap-effect relative"
+                className="w-10 h-10 rounded-full bg-violet-500/20 backdrop-blur-sm flex items-center justify-center tap-effect relative border border-violet-500/50"
               >
-                <Bell className="w-5 h-5 text-slate-600" />
+                <Bell className="w-5 h-5 text-violet-700" />
                 {/* 红点提示 */}
                 {hasImportantNotification && (
                   <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-red-500 rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white">
@@ -498,11 +536,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
             
             {/* 用户头像 */}
-            <button 
+            <button
               onClick={() => onNavigate('settings')}
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-violet-200 tap-effect"
+              className="w-10 h-10 rounded-full bg-violet-500/20 backdrop-blur-sm flex items-center justify-center tap-effect border border-violet-500/50"
             >
-              <span className="text-white text-sm font-bold">同</span>
+              <span className="text-violet-700 text-sm font-bold">同</span>
             </button>
           </div>
         </div>
@@ -751,22 +789,28 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           {countdowns.map((countdown) => (
             <div
               key={countdown.id}
-              className="flex-shrink-0 w-28 bg-white rounded-2xl p-3 shadow-sm border border-slate-100 tap-effect"
+              className="flex-shrink-0 w-28 bg-white rounded-2xl p-3 shadow-sm border border-slate-100 tap-effect relative"
             >
+              <button
+                onClick={() => deleteCountdown(countdown.id)}
+                className="absolute top-1 right-1 p-1 rounded-full hover:bg-red-50"
+              >
+                <X className="w-3 h-3 text-red-400" />
+              </button>
               <div className={`w-7 h-7 rounded-lg ${countdown.color} flex items-center justify-center mb-2`}>
                 <Calendar className="w-3.5 h-3.5 text-white" />
               </div>
               <p className="text-[10px] text-slate-500 truncate">{countdown.name}</p>
               <p className="text-lg font-bold text-slate-800 mt-1">
-                {countdown.days}<span className="text-[10px] font-normal text-slate-400">天</span>
+                {getDaysLeft(countdown.date)}<span className="text-[10px] font-normal text-slate-400">天</span>
               </p>
               <p className="text-[9px] text-slate-400 mt-0.5">{countdown.date}</p>
             </div>
           ))}
-          
+
           {/* 添加按钮 */}
-          <button 
-            onClick={() => onNavigate('plan')}
+          <button
+            onClick={() => setShowAddCountdown(true)}
             className="flex-shrink-0 w-28 bg-slate-50 rounded-2xl p-3 border border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 tap-effect"
           >
             <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center">
@@ -776,6 +820,43 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </button>
         </div>
       </section>
+
+      {/* 添加倒计时弹窗 */}
+      {showAddCountdown && (
+        <div
+          className="fixed inset-0 bg-black/50 z-[999] flex items-end"
+          onClick={() => setShowAddCountdown(false)}
+        >
+          <div
+            className="w-full bg-white rounded-t-3xl p-5 animate-slide-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-12 h-1.5 rounded-full bg-slate-200 mx-auto mb-5" />
+            <h3 className="text-base font-bold text-slate-800 mb-4">添加倒计时</h3>
+            <div className="space-y-3">
+              <input
+                type="text"
+                placeholder="倒计时名称"
+                value={newCountdown.name}
+                onChange={(e) => setNewCountdown({...newCountdown, name: e.target.value})}
+                className="w-full h-11 px-4 rounded-xl bg-slate-100 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 text-sm"
+              />
+              <input
+                type="date"
+                value={newCountdown.date}
+                onChange={(e) => setNewCountdown({...newCountdown, date: e.target.value})}
+                className="w-full h-11 px-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500/30 text-sm"
+              />
+              <button
+                onClick={addCountdown}
+                className="w-full h-11 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 font-medium text-sm border border-violet-500/50 hover:bg-violet-500/30 transition-colors"
+              >
+                添加
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

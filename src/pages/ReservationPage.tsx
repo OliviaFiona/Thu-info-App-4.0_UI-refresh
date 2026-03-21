@@ -106,9 +106,9 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
                     key={date.date}
                     onClick={() => setSelectedDate(date.date)}
                     className={`
-                      flex-shrink-0 px-3 py-2 rounded-xl text-center min-w-[60px]
+                      flex-shrink-0 px-3 py-2 rounded-xl text-center min-w-[60px] transition-all
                       ${selectedDate === date.date
-                        ? 'bg-violet-500 text-white'
+                        ? 'bg-violet-500/20 backdrop-blur-sm border border-violet-500/50 text-violet-700 shadow-sm'
                         : 'bg-white text-slate-600 border border-slate-200'
                       }
                     `}
@@ -165,9 +165,9 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
                     key={date.date}
                     onClick={() => setSelectedDate(date.date)}
                     className={`
-                      flex-shrink-0 px-3 py-2 rounded-xl text-center min-w-[60px]
+                      flex-shrink-0 px-3 py-2 rounded-xl text-center min-w-[60px] transition-all
                       ${selectedDate === date.date
-                        ? 'bg-emerald-500 text-white'
+                        ? 'bg-violet-500/20 backdrop-blur-sm border border-violet-500/50 text-violet-700 shadow-sm'
                         : 'bg-white text-slate-600 border border-slate-200'
                       }
                     `}
@@ -189,8 +189,8 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
-                        <Goal className="w-5 h-5 text-emerald-600" />
+                      <div className="w-10 h-10 rounded-xl bg-emerald-500/20 backdrop-blur-sm flex items-center justify-center border border-emerald-500/50">
+                        <Goal className="w-5 h-5 text-emerald-700" />
                       </div>
                       <div>
                         <p className="font-medium text-slate-800">{venue.name}</p>
@@ -238,9 +238,9 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
                     key={date.date}
                     onClick={() => setSelectedDate(date.date)}
                     className={`
-                      flex-shrink-0 px-3 py-2 rounded-xl text-center min-w-[60px]
+                      flex-shrink-0 px-3 py-2 rounded-xl text-center min-w-[60px] transition-all
                       ${selectedDate === date.date
-                        ? 'bg-amber-500 text-white'
+                        ? 'bg-violet-500/20 backdrop-blur-sm border border-violet-500/50 text-violet-700 shadow-sm'
                         : 'bg-white text-slate-600 border border-slate-200'
                       }
                     `}
@@ -266,8 +266,8 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
-                        <DoorClosed className="w-5 h-5 text-amber-600" />
+                      <div className="w-10 h-10 rounded-xl bg-amber-500/20 backdrop-blur-sm flex items-center justify-center border border-amber-500/50">
+                        <DoorClosed className="w-5 h-5 text-amber-700" />
                       </div>
                       <div>
                         <p className="font-medium text-slate-800">{room.name}</p>
@@ -336,8 +336,8 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
                     key={reservation.id}
                     className="flex items-center gap-3 p-3 rounded-xl bg-slate-50"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
-                      <Calendar className="w-5 h-5 text-violet-600" />
+                    <div className="w-10 h-10 rounded-xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 border border-violet-500/50">
+                      <Calendar className="w-5 h-5 text-violet-700" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-slate-800">{reservation.name}</p>
@@ -409,13 +409,13 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
             
             <div className="bg-slate-50 rounded-xl p-4 mb-4">
               <div className="flex items-center gap-3 mb-3">
-                <div className={`w-10 h-10 rounded-lg ${
-                  selectedService === 'library' ? 'bg-violet-100' :
-                  selectedService === 'sports' ? 'bg-emerald-100' : 'bg-amber-100'
-                } flex items-center justify-center`}>
-                  {selectedService === 'library' && <BookOpen className="w-5 h-5 text-violet-600" />}
-                  {selectedService === 'sports' && <Goal className="w-5 h-5 text-emerald-600" />}
-                  {selectedService === 'study' && <DoorClosed className="w-5 h-5 text-amber-600" />}
+                <div className={`w-10 h-10 rounded-xl backdrop-blur-sm flex items-center justify-center border ${
+                  selectedService === 'library' ? 'bg-violet-500/20 border-violet-500/50' :
+                  selectedService === 'sports' ? 'bg-emerald-500/20 border-emerald-500/50' : 'bg-amber-500/20 border-amber-500/50'
+                }`}>
+                  {selectedService === 'library' && <BookOpen className="w-5 h-5 text-violet-700" />}
+                  {selectedService === 'sports' && <Goal className="w-5 h-5 text-emerald-700" />}
+                  {selectedService === 'study' && <DoorClosed className="w-5 h-5 text-amber-700" />}
                 </div>
                 <div>
                   <p className="font-medium text-slate-800">{bookingItem.name}</p>
@@ -439,23 +439,15 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
               </div>
             </div>
             
-            <div className="flex gap-3">
-              <button 
-                onClick={() => setShowBookingModal(false)}
-                className="flex-1 h-12 rounded-xl bg-slate-100 text-slate-600 font-medium"
-              >
-                取消
-              </button>
-              <button 
-                onClick={() => {
-                  setShowBookingModal(false);
-                  // 这里处理预约逻辑
-                }}
-                className="flex-1 h-12 rounded-xl bg-violet-500 text-white font-medium"
-              >
-                确认预约
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                setShowBookingModal(false);
+                // 这里处理预约逻辑
+              }}
+              className="w-full h-12 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 font-medium border border-violet-500/50 hover:bg-violet-500/30 transition-colors"
+            >
+              确认预约
+            </button>
           </div>
         </div>
       )}

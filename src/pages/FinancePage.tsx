@@ -44,7 +44,7 @@ export const FinancePage: React.FC<FinancePageProps> = ({ onBack }) => {
 
             <div className="flex items-center justify-between mb-2">
               <p className="text-4xl font-bold text-purple-800">¥ 128.50</p>
-              <button className="px-4 py-2 rounded-xl bg-[#F2EDFE]/60 backdrop-blur-md text-[#9359FF] text-sm font-medium border border-[#9359FF]/25 shadow-[0_2px_8px_rgba(147,89,255,0.15)] hover:bg-[#F2EDFE]/80 transition-all">
+              <button className="px-4 py-2 rounded-full bg-violet-500/20 backdrop-blur-sm text-violet-700 text-sm font-medium border border-violet-500/50 hover:bg-violet-500/30 transition-colors">
                 立即充值
               </button>
             </div>
@@ -76,8 +76,8 @@ export const FinancePage: React.FC<FinancePageProps> = ({ onBack }) => {
                 key={item.id}
                 className="bg-white rounded-2xl p-5 shadow-light card-hover flex flex-col items-center gap-3"
               >
-                <div className="w-14 h-14 rounded-2xl bg-[#F2EDFE] flex items-center justify-center backdrop-blur-md border border-[#9359FF]/20 shadow-[0_2px_8px_rgba(147,89,255,0.1)]">
-                  <Icon className="w-7 h-7 text-[#9359FF]" />
+                <div className="w-14 h-14 rounded-2xl bg-violet-500/20 backdrop-blur-sm flex items-center justify-center border border-violet-500/50">
+                  <Icon className="w-7 h-7 text-violet-700" />
                 </div>
                 <span className="text-sm font-medium text-foreground">{item.name}</span>
               </button>

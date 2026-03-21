@@ -215,7 +215,6 @@ export const financeFunctions = [
 export const dormitoryFunctions = [
   { id: 'washer', name: '洗衣机查询', icon: 'WashingMachine' },
   { id: 'water', name: '清紫源泉', icon: 'Droplets' },
-  { id: 'hygiene', name: '卫生成绩', icon: 'Sparkles' },
   { id: 'electricity', name: '宿舍电费', icon: 'Plug' },
 ];
 
