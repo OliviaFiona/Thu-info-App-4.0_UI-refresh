@@ -1,0 +1,360 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* THU Info 品牌色彩系统 */
+    --thu-purple: 278 43% 44%;
+    --thu-purple-light: 278 43% 94%;
+    --thu-mint: 158 62% 78%;
+    --thu-mint-light: 158 62% 94%;
+    
+    /* 背景色 */
+    --background: 270 33% 98%;
+    --foreground: 240 20% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 20% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 20% 14%;
+    
+    /* 主色调 - 清华紫 */
+    --primary: 278 43% 44%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* 次色调 */
+    --secondary: 278 43% 96%;
+    --secondary-foreground: 278 43% 44%;
+    
+    /* 强调色 - 薄荷绿 */
+    --accent: 158 62% 78%;
+    --accent-foreground: 240 20% 14%;
+    
+    /* 中性色 */
+    --muted: 270 20% 96%;
+    --muted-foreground: 240 10% 45%;
+    
+    /* 功能色 */
+    --destructive: 0 72% 71%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 158 62% 60%;
+    --success-foreground: 0 0% 100%;
+    --warning: 43 96% 56%;
+    --warning-foreground: 0 0% 100%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+    
+    /* 边框和输入 */
+    --border: 270 20% 90%;
+    --input: 270 20% 94%;
+    --ring: 278 43% 44%;
+    --radius: 0.75rem;
+    
+    /* 侧边栏 */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 278 43% 44%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 278 43% 96%;
+    --sidebar-accent-foreground: 278 43% 44%;
+    --sidebar-border: 270 20% 91%;
+    --sidebar-ring: 278 43% 44%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  /* 玻璃态效果 */
+  .glass {
+    @apply bg-white/85 backdrop-blur-xl;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  
+  .glass-strong {
+    @apply bg-white/95 backdrop-blur-2xl;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+  
+  /* 渐变背景 */
+  .gradient-purple {
+    background: linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%);
+  }
+  
+  /* 点击效果 */
+  .tap-effect {
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  }
+  
+  .tap-effect:active {
+    transform: scale(0.97);
+  }
+  
+  /* 卡片悬停 */
+  .card-hover {
+    transition: all 0.2s ease-out;
+  }
+  
+  .card-hover:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* 隐藏滚动条 */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .gradient-purple-light {
+    background: linear-gradient(135deg, #F5EEF8 0%, #EBF4FF 100%);
+  }
+  
+  .gradient-mint-purple {
+    background: linear-gradient(135deg, #A8E6CF 0%, #D4A5E6 100%);
+  }
+  
+  .gradient-hero {
+    background: linear-gradient(135deg, rgba(168, 230, 207, 0.3) 0%, rgba(212, 165, 230, 0.2) 50%, rgba(245, 238, 248, 0.4) 100%);
+  }
+  
+  /* 阴影系统 */
+  .shadow-card {
+    box-shadow: 0 4px 16px rgba(123, 63, 160, 0.12);
+  }
+  
+  .shadow-card-hover {
+    box-shadow: 0 8px 32px rgba(123, 63, 160, 0.16);
+  }
+  
+  .shadow-nav {
+    box-shadow: 0 4px 20px rgba(123, 63, 160, 0.2);
+  }
+  
+  .shadow-light {
+    box-shadow: 0 2px 8px rgba(123, 63, 160, 0.08);
+  }
+  
+  /* 文字渐变 */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--thu-purple)) 0%, #9B59B6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* 安全区域 */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+  
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  
+  /* 隐藏滚动条但保持功能 */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* 动画工具类 */
+  .animate-fade-in {
+    animation: fadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  
+  .animate-breathe {
+    animation: breathe 3s ease-in-out infinite;
+  }
+  
+  /* 点击效果 */
+  .tap-effect {
+    transition: transform 0.15s ease-out;
+  }
+  
+  .tap-effect:active {
+    transform: scale(0.96);
+  }
+  
+  /* 卡片悬停 */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(123, 63, 160, 0.16);
+  }
+  
+  /* 图标按钮 */
+  .icon-btn {
+    @apply flex items-center justify-center rounded-xl transition-all duration-200;
+  }
+  
+  .icon-btn:hover {
+    @apply bg-secondary;
+  }
+  
+  .icon-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* 关键帧动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* 页面过渡动画 */
+.page-enter {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+
+/* 底部导航动画 */
+.nav-item-active {
+  animation: navBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes navBounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.15);
+  }
+  100% {
+    transform: translateY(-4px) scale(1.1);
+  }
+}
+
+/* 列表项错开动画 */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stagger-item.visible {
+  animation: slideUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
