@@ -214,7 +214,7 @@ export const NewsPage = () => {
   const hasActiveFilters = selectedCategories.length > 0 || showStarredOnly || showSubscribedOnly || searchQuery;
 
   return (
-    <div className="min-h-screen pb-24 bg-slate-50">
+    <div className="pb-24 bg-slate-50">
       {/* 搜索框 - 缩小间距 */}
       <div className="pt-8 px-4 pb-3 bg-white sticky top-0 z-20 border-b border-slate-100">
         <div className="relative">

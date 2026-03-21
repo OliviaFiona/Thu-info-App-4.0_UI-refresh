@@ -64,7 +64,7 @@ export const SettingsPage = () => {
   };
 
   return (
-    <div className="min-h-screen pb-28 bg-background">
+    <div className="min-h-full pb-28 bg-background">
       {/* 顶部 Header */}
       <header className="pt-12 px-5 pb-4">
         <h1 className="text-2xl font-bold text-foreground">设置</h1>

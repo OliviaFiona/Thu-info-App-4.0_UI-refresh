@@ -93,7 +93,7 @@ export const AIPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="flex flex-col bg-slate-50">
       {/* 顶部 Header */}
       <header className="pt-8 px-4 pb-3 bg-white sticky top-0 z-10 border-b border-slate-100">
         <div className="flex items-center justify-between">
