@@ -514,7 +514,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div 
           ref={functionScrollRef}
           onScroll={handleFunctionScroll}
-          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory pl-5 pr-5 gap-3"
+          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory pl-5 pr-5 gap-4"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {allFunctions.map((item) => (
@@ -531,26 +531,30 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 setIsEditMode(true);
               }}
               className={`
-                flex-shrink-0 w-[calc(25%-9px)] snap-start
+                flex-shrink-0 w-16 snap-start
                 ${pressedCard === item.id ? 'scale-95' : 'scale-100'}
                 transition-transform duration-150
               `}
             >
-              <div 
-                className={`
-                  relative aspect-square rounded-2xl flex flex-col items-center justify-center gap-2
-                  bg-gradient-to-br ${item.color} shadow-lg
-                  ${pressedCard === item.id ? 'shadow-xl' : 'shadow-md'}
-                  transition-shadow duration-150
-                `}
-              >
-                {isEditMode && (
-                  <div className="absolute top-1 right-1">
-                    <GripVertical className="w-4 h-4 text-white/70" />
-                  </div>
-                )}
-                <FunctionIcon name={item.name} />
-                <span className="text-xs text-white font-medium text-center px-1">{item.name}</span>
+              <div className="flex flex-col items-center gap-2">
+                {/* 图标容器 */}
+                <div 
+                  className={`
+                    relative w-14 h-14 rounded-2xl flex items-center justify-center
+                    bg-gradient-to-br ${item.color} shadow-md
+                    ${pressedCard === item.id ? 'shadow-lg' : 'shadow-md'}
+                    transition-shadow duration-150
+                  `}
+                >
+                  {isEditMode && (
+                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-white/90 rounded-full flex items-center justify-center">
+                      <GripVertical className="w-3 h-3 text-slate-400" />
+                    </div>
+                  )}
+                  <FunctionIcon name={item.name} />
+                </div>
+                {/* 文字 */}
+                <span className="text-xs text-slate-600 font-medium text-center leading-tight">{item.name}</span>
               </div>
             </div>
           ))}
