@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { 
-  ChevronLeft, 
-  BookOpen, 
-  Goal, 
-  DoorClosed, 
-  Calendar, 
-  Clock, 
-  MapPin, 
+import { useState, useEffect } from 'react';
+import {
+  ChevronLeft,
+  BookOpen,
+  Goal,
+  DoorClosed,
+  Calendar,
+  Clock,
+  MapPin,
 } from 'lucide-react';
 
 interface ReservationPageProps {
@@ -82,8 +82,32 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
   const [selectedDate, setSelectedDate] = useState('2026-02-16');
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingItem, setBookingItem] = useState<any>(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  // 每分钟更新当前时间
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   const hasReservations = todayReservations.length > 0;
+
+  // 检查时间段是否已过期（仅限今天）
+  const isSlotExpired = (slot: string) => {
+    const today = dateOptions.find(d => d.label === '今天');
+    if (!today || selectedDate !== today.date) return false;
+
+    // 解析时间段，如 "08:00-10:00"
+    const [startTime] = slot.split('-');
+    const [hours, minutes] = startTime.split(':').map(Number);
+
+    const slotTime = new Date();
+    slotTime.setHours(hours, minutes, 0, 0);
+
+    return currentTime > slotTime;
+  };
 
   // 打开预约确认弹窗
   const openBookingModal = (item: any) => {
@@ -183,41 +207,57 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
             <div className="space-y-3">
               <p className="text-sm font-medium text-slate-700">选择场馆</p>
               {sportsVenues.map((venue) => (
-                <div 
+                <div
                   key={venue.id}
-                  className="bg-white rounded-xl p-4 shadow-sm border border-slate-100"
+                  className={`rounded-xl p-4 shadow-sm border ${
+                    venue.available
+                      ? 'bg-white border-slate-100'
+                      : 'bg-slate-100/80 border-slate-200'
+                  }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/20 backdrop-blur-sm flex items-center justify-center border border-emerald-500/50">
-                        <Goal className="w-5 h-5 text-emerald-700" />
+                      <div className={`w-10 h-10 rounded-xl backdrop-blur-sm flex items-center justify-center border ${
+                        venue.available
+                          ? 'bg-emerald-500/20 border-emerald-500/50'
+                          : 'bg-slate-400/20 border-slate-400/50'
+                      }`}>
+                        <Goal className={`w-5 h-5 ${venue.available ? 'text-emerald-700' : 'text-slate-600'}`} />
                       </div>
                       <div>
-                        <p className="font-medium text-slate-800">{venue.name}</p>
+                        <p className={`font-medium ${venue.available ? 'text-slate-800' : 'text-slate-600'}`}>{venue.name}</p>
                         <p className="text-xs text-slate-400">{venue.type}</p>
                       </div>
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-[10px] ${
-                      venue.available 
-                        ? 'bg-emerald-100 text-emerald-600' 
-                        : 'bg-red-100 text-red-600'
+                      venue.available
+                        ? 'bg-emerald-100 text-emerald-600'
+                        : 'bg-slate-300 text-slate-600'
                     }`}>
                       {venue.available ? '可预约' : '已满'}
                     </span>
                   </div>
-                  
+
                   {/* 时间段 */}
                   {venue.available && (
                     <div className="flex flex-wrap gap-2">
-                      {venue.slots.map((slot) => (
-                        <button
-                          key={slot}
-                          onClick={() => openBookingModal({ ...venue, slot })}
-                          className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-600 text-xs tap-effect"
-                        >
-                          {slot}
-                        </button>
-                      ))}
+                      {venue.slots.map((slot) => {
+                        const expired = isSlotExpired(slot);
+                        return (
+                          <button
+                            key={slot}
+                            onClick={() => !expired && openBookingModal({ ...venue, slot })}
+                            disabled={expired}
+                            className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                              expired
+                                ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                : 'bg-emerald-50 text-emerald-600 tap-effect'
+                            }`}
+                          >
+                            {slot}
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -256,28 +296,33 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
             <div className="space-y-3">
               <p className="text-sm font-medium text-slate-700">选择研讨间</p>
               {studyRooms.map((room) => (
-                <div 
+                <div
                   key={room.id}
                   onClick={() => room.available && openBookingModal(room)}
-                  className={`
-                    bg-white rounded-xl p-4 shadow-sm border border-slate-100
-                    ${room.available ? 'tap-effect' : 'opacity-60'}
-                  `}
+                  className={`rounded-xl p-4 shadow-sm border ${
+                    room.available
+                      ? 'bg-white border-slate-100 tap-effect'
+                      : 'bg-slate-100/80 border-slate-200'
+                  }`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/20 backdrop-blur-sm flex items-center justify-center border border-amber-500/50">
-                        <DoorClosed className="w-5 h-5 text-amber-700" />
+                      <div className={`w-10 h-10 rounded-xl backdrop-blur-sm flex items-center justify-center border ${
+                        room.available
+                          ? 'bg-amber-500/20 border-amber-500/50'
+                          : 'bg-slate-400/20 border-slate-400/50'
+                      }`}>
+                        <DoorClosed className={`w-5 h-5 ${room.available ? 'text-amber-700' : 'text-slate-600'}`} />
                       </div>
                       <div>
-                        <p className="font-medium text-slate-800">{room.name}</p>
+                        <p className={`font-medium ${room.available ? 'text-slate-800' : 'text-slate-600'}`}>{room.name}</p>
                         <p className="text-xs text-slate-400">容纳 {room.capacity} 人</p>
                       </div>
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-[10px] ${
-                      room.available 
-                        ? 'bg-emerald-100 text-emerald-600' 
-                        : 'bg-red-100 text-red-600'
+                      room.available
+                        ? 'bg-emerald-100 text-emerald-600'
+                        : 'bg-slate-300 text-slate-600'
                     }`}>
                       {room.available ? '可预约' : '已满'}
                     </span>
@@ -437,8 +482,36 @@ export const ReservationPage: React.FC<ReservationPageProps> = ({ onBack }) => {
                   </div>
                 )}
               </div>
+
+              {/* 体育场馆时间段选择 */}
+              {selectedService === 'sports' && bookingItem.slots && bookingItem.slots.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-slate-200">
+                  <p className="text-xs text-slate-400 mb-2">选择时间段</p>
+                  <div className="flex flex-wrap gap-2">
+                    {bookingItem.slots.map((slot: string) => {
+                      const expired = isSlotExpired(slot);
+                      return (
+                        <button
+                          key={slot}
+                          onClick={() => !expired && setBookingItem({ ...bookingItem, slot })}
+                          disabled={expired}
+                          className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                            expired
+                              ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                              : bookingItem.slot === slot
+                                ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/50'
+                                : 'bg-slate-100 text-slate-600 border border-slate-200'
+                          }`}
+                        >
+                          {slot}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
-            
+
             <button
               onClick={() => {
                 setShowBookingModal(false);

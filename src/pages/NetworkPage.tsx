@@ -1,5 +1,5 @@
-import React from 'react';
-import { ChevronLeft, Wifi, Smartphone, Laptop, Tablet } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, Wifi, Smartphone, Laptop, Tablet, X } from 'lucide-react';
 
 interface NetworkPageProps {
   onBack: () => void;
@@ -7,11 +7,23 @@ interface NetworkPageProps {
 
 export const NetworkPage: React.FC<NetworkPageProps> = ({ onBack }) => {
   // 在线设备数据
-  const onlineDevices = [
+  const [onlineDevices, setOnlineDevices] = useState([
     { id: 1, name: 'iPhone 15 Pro', type: 'phone', ip: '166.111.XX.XX', time: '已在线2小时' },
     { id: 2, name: 'MacBook Pro', type: 'laptop', ip: '166.111.XX.XX', time: '已在线3小时' },
     { id: 3, name: 'iPad Air', type: 'tablet', ip: '166.111.XX.XX', time: '已在线1天' },
-  ];
+  ]);
+
+  // Toast 状态
+  const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
+
+  // 下线设备
+  const handleOffline = (deviceId: number, deviceName: string) => {
+    setOnlineDevices(prev => prev.filter(d => d.id !== deviceId));
+    setToast({ show: true, message: `${deviceName}已下线` });
+    setTimeout(() => {
+      setToast({ show: false, message: '' });
+    }, 2000);
+  };
 
   // 网络使用数据
   const networkData = {
@@ -106,7 +118,10 @@ export const NetworkPage: React.FC<NetworkPageProps> = ({ onBack }) => {
                   <p className="text-xs text-muted-foreground">{device.ip}</p>
                 </div>
                 <div className="text-right min-w-[80px]">
-                  <button className="px-3 py-1 rounded text-xs bg-red-50 text-red-600 hover:bg-red-100 transition-colors">
+                  <button
+                    onClick={() => handleOffline(device.id, device.name)}
+                    className="px-3 py-1 rounded text-xs bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                  >
                     点击下线
                   </button>
                   <p className="text-[10px] text-muted-foreground mt-0.5">{device.time}</p>
@@ -122,6 +137,16 @@ export const NetworkPage: React.FC<NetworkPageProps> = ({ onBack }) => {
           </div>
         </div>
       </div>
+
+      {/* Toast 提示 */}
+      {toast.show && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-4 py-2 rounded-full text-sm shadow-lg animate-fade-in z-50 flex items-center gap-2">
+          <span>{toast.message}</span>
+          <button onClick={() => setToast({ show: false, message: '' })}>
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
