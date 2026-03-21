@@ -53,11 +53,11 @@ const FunctionIcon = ({ id }: { id: string }) => {
   return <span className="text-lg">📱</span>;
 };
 
-// 广告数据
+// 广告数据 - 维纳斯风格微玻璃配色
 const ads = [
-  { id: 1, title: '春季学期选课即将开始', subtitle: '2月20日 9:00准时开放', color: 'from-violet-500 to-purple-600', tag: '重要' },
-  { id: 2, title: '图书馆延长开放时间', subtitle: '期末考试期间至24:00', color: 'from-emerald-500 to-teal-600', tag: '服务' },
-  { id: 3, title: '校园马拉松报名中', subtitle: '3月15日 紫荆操场', color: 'from-orange-500 to-red-500', tag: '活动' },
+  { id: 1, title: '春季学期选课即将开始', subtitle: '2月20日 9:00准时开放', color: 'from-indigo-300/40 via-purple-300/30 to-pink-300/40', tagColor: 'bg-indigo-400/80', textColor: 'text-indigo-900', subTextColor: 'text-indigo-600/70', tag: '重要' },
+  { id: 2, title: '图书馆延长开放时间', subtitle: '期末考试期间至24:00', color: 'from-emerald-300/40 via-teal-300/30 to-cyan-300/40', tagColor: 'bg-emerald-400/80', textColor: 'text-emerald-900', subTextColor: 'text-emerald-600/70', tag: '服务' },
+  { id: 3, title: '校园马拉松报名中', subtitle: '3月15日 紫荆操场', color: 'from-amber-300/40 via-orange-300/30 to-rose-300/40', tagColor: 'bg-amber-400/80', textColor: 'text-amber-900', subTextColor: 'text-amber-700/70', tag: '活动' },
 ];
 
 // 预约数据类型
@@ -579,9 +579,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 原生广告位 */}
+      {/* 原生广告位 - 维纳斯微玻璃风格 */}
       <section className="px-5 mb-4">
-        <div className="relative overflow-hidden rounded-2xl">
+        <div className="relative overflow-hidden rounded-2xl backdrop-blur-xl bg-white/60 shadow-[0_8px_32px_rgba(139,92,246,0.08)]">
           <div 
             className="flex transition-transform duration-500"
             style={{ transform: `translateX(-${adIndex * 100}%)` }}
@@ -590,14 +590,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <div
                 key={ad.id}
                 onClick={() => onNavigate('news')}
-                className={`flex-shrink-0 w-full p-4 bg-gradient-to-r ${ad.color} cursor-pointer tap-effect`}
+                className={`flex-shrink-0 w-full p-4 bg-gradient-to-br ${ad.color} cursor-pointer tap-effect backdrop-blur-md`}
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-white font-semibold text-sm">{ad.title}</p>
-                    <p className="text-white/80 text-[10px] mt-1">{ad.subtitle}</p>
+                    <p className={`${ad.textColor} font-semibold text-sm`}>{ad.title}</p>
+                    <p className={`${ad.subTextColor} text-[10px] mt-1`}>{ad.subtitle}</p>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full bg-white/20 text-white text-[9px]">
+                  <span className={`px-2.5 py-0.5 rounded-full ${ad.tagColor} text-white text-[9px] font-medium shadow-sm backdrop-blur-sm`}>
                     {ad.tag}
                   </span>
                 </div>
@@ -605,14 +605,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             ))}
           </div>
           
-          {/* 广告轮播指示器 */}
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+          {/* 广告轮播指示器 - 柔和风格 */}
+          <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1.5">
             {ads.map((_, i) => (
               <div
                 key={i}
                 className={`
-                  w-1 h-1 rounded-full transition-all
-                  ${adIndex === i ? 'bg-white w-3' : 'bg-white/50'}
+                  h-1 rounded-full transition-all duration-300
+                  ${adIndex === i ? 'bg-indigo-400/60 w-4 shadow-sm' : 'bg-slate-300/40 w-1'}
                 `}
               />
             ))}
