@@ -64,9 +64,9 @@ export const SettingsPage = () => {
   };
 
   return (
-    <div className="min-h-full pb-28 bg-background">
-      {/* 顶部 Header */}
-      <header className="pt-12 px-5 pb-4">
+    <>
+      {/* 顶部 Header - 移出动画容器以实现 sticky */}
+      <header className="pt-5 px-4 pb-2 bg-white sticky top-0 z-10">
         <h1 className="text-2xl font-bold text-foreground">设置</h1>
       </header>
 
@@ -176,7 +176,7 @@ export const SettingsPage = () => {
         <p className="text-xs text-muted-foreground">THU Info v2.0.0</p>
         <p className="text-xs text-muted-foreground mt-1">清华大学信息技术中心</p>
       </div>
-    </div>
+    </>
   );
 };
 

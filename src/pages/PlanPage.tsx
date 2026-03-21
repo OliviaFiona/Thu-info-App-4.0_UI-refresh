@@ -369,7 +369,7 @@ export const PlanPage = () => {
   return (
     <div className="pb-24 bg-slate-50">
       {/* 顶部 Header - 缩小间距 */}
-      <header className="pt-8 px-4 pb-2 bg-white sticky top-0 z-10 border-b border-slate-100">
+      <header className="pt-5 px-4 pb-2 bg-white sticky top-0 z-10 border-b border-slate-100">
         <div className="flex items-center justify-between">
           <h1 className="text-base font-bold text-slate-800">日程</h1>
           <div className="flex items-center gap-3">

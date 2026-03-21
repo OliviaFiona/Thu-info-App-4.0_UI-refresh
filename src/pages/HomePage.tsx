@@ -466,7 +466,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
     <div className="pb-20 bg-gradient-to-b from-slate-50 to-white">
       {/* 顶部导航栏 - 缩小间距 */}
-      <header className="pt-8 px-5 pb-2">
+      <header className="pt-5 px-5 pb-2 bg-white/80 backdrop-blur-md sticky top-0 z-10">
         <div className="flex items-center justify-between">
           {/* 时间日期 */}
           <div>

@@ -112,7 +112,7 @@ export const AIPage = () => {
   return (
     <div className="flex flex-col bg-slate-50">
       {/* 顶部 Header */}
-      <header className="pt-8 px-4 pb-3 bg-white sticky top-0 z-10 border-b border-slate-100">
+      <header className="pt-5 px-4 pb-2 bg-white sticky top-0 z-10 border-b border-slate-100">
         <div className="flex items-center justify-between">
           <button className="p-2 -ml-2 rounded-xl hover:bg-slate-100 transition-colors">
             <Menu className="w-5 h-5 text-slate-600" />

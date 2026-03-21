@@ -24,20 +24,22 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="min-h-full bg-background animate-slide-in-right">
-      {/* 顶部 Header */}
-      <header className="pt-12 px-5 pb-4 bg-white sticky top-0 z-10">
+    <div className="fixed inset-0 flex flex-col bg-background animate-slide-in-right">
+      {/* 顶部 Header - 固定在顶部 */}
+      <header className="pt-12 px-4 pb-3 bg-white shrink-0 z-10 border-b border-slate-100">
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={onBack}
-            className="p-2 -ml-2 rounded-xl hover:bg-muted transition-colors"
+            className="p-2 -ml-2 rounded-xl hover:bg-slate-100 transition-colors"
           >
-            <ChevronLeft className="w-6 h-6 text-foreground" />
+            <ChevronLeft className="w-6 h-6 text-slate-800" />
           </button>
-          <h1 className="text-xl font-bold text-foreground">成绩单</h1>
+          <h1 className="text-xl font-bold text-slate-800">成绩单</h1>
         </div>
       </header>
 
+      {/* 滚动内容区域 */}
+      <div className="flex-1 overflow-y-auto">
       {/* GPA 总览卡片 */}
       <div className="px-5 py-4">
         <div className="relative overflow-hidden rounded-3xl p-6 gradient-purple shadow-card-hover">
@@ -137,10 +139,11 @@ export const TranscriptPage: React.FC<TranscriptPageProps> = ({ onBack }) => {
       </div>
 
       {/* 提示 */}
-      <div className="px-5 pb-8">
+      <div className="px-5 pb-24">
         <p className="text-xs text-muted-foreground text-center">
           GPA计算结果仅供参考，请以官方成绩单为准。
         </p>
+      </div>
       </div>
     </div>
   );

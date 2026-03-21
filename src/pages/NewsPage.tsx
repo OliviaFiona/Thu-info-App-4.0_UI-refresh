@@ -216,7 +216,7 @@ export const NewsPage = () => {
   return (
     <div className="pb-24 bg-slate-50">
       {/* 搜索框 - 缩小间距 */}
-      <div className="pt-8 px-4 pb-3 bg-white sticky top-0 z-20 border-b border-slate-100">
+      <div className="pt-5 px-4 pb-2 bg-white sticky top-0 z-20 border-b border-slate-100">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
