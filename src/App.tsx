@@ -25,17 +25,11 @@ type PageType =
 
 function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // 处理页面导航
+  // 处理页面导航（无 opacity/位移过渡，避免与 fixed 底部栏合成层互相干扰导致抖动）
   const navigateTo = (page: PageType) => {
     if (page === currentPage) return;
-    
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentPage(page);
-      setIsTransitioning(false);
-    }, 150);
+    setCurrentPage(page);
   };
 
   // 处理底部导航切换
@@ -120,18 +114,13 @@ function App() {
   const showBottomNav = ['home', 'news', 'ai', 'plan'].includes(currentPage);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* 页面内容 */}
-      <main 
-        className={`
-          transition-all duration-300
-          ${isTransitioning ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}
-        `}
-      >
+    <div className="min-h-[100dvh] min-h-screen bg-background">
+      {/* 页面内容 - 添加底部内边距避免被底部导航栏遮挡 */}
+      <main className={`min-h-0 ${showBottomNav ? 'pb-24' : ''}`}>
         {renderPage()}
       </main>
 
-      {/* 底部导航 */}
+      {/* 底部导航 - 使用 Portal 挂载到 body，fixed 定位固定在视口底部 */}
       {showBottomNav && (
         <BottomNav 
           activeTab={currentPage} 
