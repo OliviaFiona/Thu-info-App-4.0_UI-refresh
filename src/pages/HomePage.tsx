@@ -479,9 +479,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <div className="relative" ref={notificationRef}>
               <button
                 onClick={() => setShowNotificationPanel(!showNotificationPanel)}
-                className="w-10 h-10 rounded-full bg-violet-500/20 backdrop-blur-sm flex items-center justify-center tap-effect relative border border-violet-500/50"
+                className="w-10 h-10 rounded-full bg-[#9359FF] flex items-center justify-center tap-effect relative shadow-sm"
               >
-                <Bell className="w-5 h-5 text-violet-700" />
+                <Bell className="w-5 h-5 text-white" />
                 {/* 红点提示 */}
                 {hasImportantNotification && (
                   <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-red-500 rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white">
@@ -538,9 +538,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             {/* 用户头像 */}
             <button
               onClick={() => onNavigate('settings')}
-              className="w-10 h-10 rounded-full bg-violet-500/20 backdrop-blur-sm flex items-center justify-center tap-effect border border-violet-500/50"
+              className="w-10 h-10 rounded-full bg-[#9359FF] flex items-center justify-center tap-effect shadow-sm"
             >
-              <span className="text-violet-700 text-sm font-bold">同</span>
+              <span className="text-white text-sm font-bold">同</span>
             </button>
           </div>
         </div>
